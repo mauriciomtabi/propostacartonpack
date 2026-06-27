@@ -1288,26 +1288,32 @@
     align-items: stretch;
     margin-top: 40px;
   }
+  
+  /* Overlapping Device Collage layout */
   .devices-showcase-row {
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: flex-end;
-    gap: 16px;
     margin: 20px auto;
     width: 100%;
+    position: relative;
+    height: 180px;
   }
 
   /* MacBook Mockup */
   .real-macbook {
-    width: 240px;
-    height: 139px;
+    width: 280px;
+    height: 162px;
     background-image: url('https://cdn.jsdelivr.net/npm/html5-device-mockups@3.2.1/device-mockups/Macbook/portrait_black.png');
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
     position: relative;
     flex-shrink: 0;
+    z-index: 1;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+    border-radius: 8px 8px 0 0;
   }
   .real-macbook .screen {
     position: absolute;
@@ -1315,20 +1321,25 @@
     left: 12.907%;
     width: 74.186%;
     height: 75.301%;
-    background: #0f0f0f;
+    background: #111;
     overflow: hidden;
   }
 
   /* iPad Mockup */
   .real-ipad {
-    width: 100px;
-    height: 134px;
+    width: 120px;
+    height: 161px;
     background-image: url('https://cdn.jsdelivr.net/npm/html5-device-mockups@3.2.1/device-mockups/iPad/portrait_black.png');
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
     position: relative;
     flex-shrink: 0;
+    margin-left: -60px;
+    z-index: 2;
+    transform: translateY(8px);
+    box-shadow: 5px 15px 30px rgba(0,0,0,0.5);
+    border-radius: 12px;
   }
   .real-ipad .screen {
     position: absolute;
@@ -1336,20 +1347,25 @@
     left: 12.5%;
     width: 75%;
     height: 77.49%;
-    background: #0f0f0f;
+    background: #111;
     overflow: hidden;
   }
 
   /* iPhone Mockup */
   .real-iphone {
-    width: 70px;
-    height: 142px;
+    width: 80px;
+    height: 162px;
     background-image: url('https://cdn.jsdelivr.net/npm/html5-device-mockups@3.2.1/device-mockups/iPhone7/portrait_black.png');
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
     position: relative;
     flex-shrink: 0;
+    margin-left: -40px;
+    z-index: 3;
+    transform: translateY(16px);
+    box-shadow: 8px 15px 35px rgba(0,0,0,0.6);
+    border-radius: 10px;
   }
   .real-iphone .screen {
     position: absolute;
@@ -1357,7 +1373,7 @@
     left: 8.444%;
     width: 83.111%;
     height: 75.847%;
-    background: #0f0f0f;
+    background: #111;
     overflow: hidden;
   }
 
@@ -1371,76 +1387,16 @@
     color: #fafafa;
     position: relative;
   }
-  .scr-header {
-    background: #161616;
-    border-bottom: 1px solid var(--line);
-    padding: 3px 5px;
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    font-size: 6px;
+  
+  /* Schematic Map elements inside screens */
+  .mock-map-bg {
+    background: #111;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
   }
-  .scr-logo {
-    width: 10px;
-    height: 10px;
-    background: var(--lime);
-    color: var(--black);
-    font-weight: 900;
-    border-radius: 2px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 5px;
-  }
-  .scr-title {
-    font-weight: 700;
-    color: var(--white);
-    font-size: 5px;
-  }
-  .scr-content {
-    flex: 1;
-    background: #0f0f0f;
-    padding: 4px;
-    overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-  }
-  .mock-card {
-    background: var(--card);
-    border: 1px solid var(--line);
-    border-radius: 4px;
-    padding: 4px;
-    font-size: 6px;
-    text-align: left;
-  }
-  .mock-title {
-    font-weight: 700;
-    color: var(--white);
-    font-size: 6.5px;
-    margin-bottom: 1px;
-  }
-  .mock-meta {
-    font-size: 5px;
-    color: var(--gray);
-  }
-  .mock-btn {
-    background: var(--lime);
-    color: var(--black);
-    font-weight: 800;
-    text-align: center;
-    padding: 2px;
-    border-radius: 2px;
-    margin-top: 2px;
-    font-size: 5px;
-    text-transform: uppercase;
-  }
-  .mock-btn.done {
-    background: rgba(180,217,50,0.1);
-    color: var(--lime);
-    border: 1px solid rgba(180,217,50,0.15);
-  }
-
+  
   .bc-list {
     list-style: none;
     display: flex;
@@ -1539,9 +1495,22 @@
       gap: 30px !important;
     }
     .devices-showcase-row {
-      flex-direction: column !important;
-      align-items: center !important;
-      gap: 20px !important;
+      height: auto !important;
+      padding-bottom: 20px;
+    }
+    .real-macbook {
+      width: 220px !important;
+      height: 127px !important;
+    }
+    .real-ipad {
+      width: 90px !important;
+      height: 121px !important;
+      margin-left: -50px !important;
+    }
+    .real-iphone {
+      width: 60px !important;
+      height: 122px !important;
+      margin-left: -30px !important;
     }
   }
 
