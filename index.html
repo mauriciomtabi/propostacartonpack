@@ -1289,22 +1289,22 @@
     margin-top: 40px;
   }
   
-  /* Overlapping Device Collage layout */
+  /* Overlapping Device Collage layout (Double Sized) */
   .devices-showcase-row {
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: flex-end;
-    margin: 20px auto;
+    margin: 30px auto;
     width: 100%;
     position: relative;
-    height: 180px;
+    height: 380px;
   }
 
-  /* MacBook Mockup */
+  /* MacBook Mockup (Double Size) */
   .real-macbook {
-    width: 280px;
-    height: 162px;
+    width: 560px;
+    height: 324px;
     background-image: url('https://cdn.jsdelivr.net/npm/html5-device-mockups@3.2.1/device-mockups/Macbook/portrait_black.png');
     background-size: contain;
     background-repeat: no-repeat;
@@ -1312,8 +1312,7 @@
     position: relative;
     flex-shrink: 0;
     z-index: 1;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.4);
-    border-radius: 8px 8px 0 0;
+    box-shadow: 0 20px 45px rgba(0,0,0,0.5);
   }
   .real-macbook .screen {
     position: absolute;
@@ -1325,21 +1324,20 @@
     overflow: hidden;
   }
 
-  /* iPad Mockup */
+  /* iPad Mockup (Double Size) */
   .real-ipad {
-    width: 120px;
-    height: 161px;
+    width: 240px;
+    height: 322px;
     background-image: url('https://cdn.jsdelivr.net/npm/html5-device-mockups@3.2.1/device-mockups/iPad/portrait_black.png');
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
     position: relative;
     flex-shrink: 0;
-    margin-left: -60px;
+    margin-left: -120px;
     z-index: 2;
-    transform: translateY(8px);
-    box-shadow: 5px 15px 30px rgba(0,0,0,0.5);
-    border-radius: 12px;
+    transform: translateY(16px);
+    box-shadow: 10px 25px 50px rgba(0,0,0,0.6);
   }
   .real-ipad .screen {
     position: absolute;
@@ -1351,21 +1349,20 @@
     overflow: hidden;
   }
 
-  /* iPhone Mockup */
+  /* iPhone Mockup (Double Size) */
   .real-iphone {
-    width: 80px;
-    height: 162px;
+    width: 160px;
+    height: 324px;
     background-image: url('https://cdn.jsdelivr.net/npm/html5-device-mockups@3.2.1/device-mockups/iPhone7/portrait_black.png');
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
     position: relative;
     flex-shrink: 0;
-    margin-left: -40px;
+    margin-left: -80px;
     z-index: 3;
-    transform: translateY(16px);
-    box-shadow: 8px 15px 35px rgba(0,0,0,0.6);
-    border-radius: 10px;
+    transform: translateY(32px);
+    box-shadow: 15px 25px 60px rgba(0,0,0,0.7);
   }
   .real-iphone .screen {
     position: absolute;
@@ -1377,24 +1374,14 @@
     overflow: hidden;
   }
 
-  /* Screen Content Detail inside Mockups */
-  .phone-screen {
+  /* Fidedigna Map Screenshot Background */
+  .fidedigna-map-screen {
     width: 100%;
     height: 100%;
-    background: #0f0f0f;
-    display: flex;
-    flex-direction: column;
-    color: #fafafa;
+    background-image: url('map_screenshot.png');
+    background-size: cover;
+    background-position: center;
     position: relative;
-  }
-  
-  /* Schematic Map elements inside screens */
-  .mock-map-bg {
-    background: #111;
-    width: 100%;
-    height: 100%;
-    position: relative;
-    overflow: hidden;
   }
   
   .bc-list {
@@ -1492,25 +1479,25 @@
     /* App mobile section/mockups adjustments */
     .app-section-grid {
       grid-template-columns: 1fr !important;
-      gap: 30px !important;
+      gap: 50px !important;
     }
     .devices-showcase-row {
       height: auto !important;
-      padding-bottom: 20px;
+      padding-bottom: 40px;
     }
     .real-macbook {
-      width: 220px !important;
-      height: 127px !important;
+      width: 280px !important;
+      height: 162px !important;
     }
     .real-ipad {
-      width: 90px !important;
-      height: 121px !important;
-      margin-left: -50px !important;
+      width: 120px !important;
+      height: 161px !important;
+      margin-left: -60px !important;
     }
     .real-iphone {
-      width: 60px !important;
-      height: 122px !important;
-      margin-left: -30px !important;
+      width: 80px !important;
+      height: 162px !important;
+      margin-left: -40px !important;
     }
   }
 
