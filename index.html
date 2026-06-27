@@ -1324,44 +1324,60 @@
     max-width: 600px;
     margin-bottom: 20px;
   }
-  .devices-row {
-    position: relative;
+  
+  /* Devices Showcase Row - Side-by-side Mockups */
+  .devices-showcase-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-end;
+    gap: 24px;
+    margin: 40px auto 0;
     width: 100%;
-    height: 400px;
-    max-width: 820px;
-    margin: 0 auto;
+    max-width: 960px;
   }
   
-  /* Notebook */
-  .devices-row .showcase-notebook {
-    position: absolute;
-    left: 0;
-    top: 20px;
-    z-index: 1;
-  }
-  .device-notebook {
+  /* MacBook Pro Mockup */
+  .mockup-macbook {
     width: 440px;
-    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-shrink: 0;
   }
-  .notebook-screen-wrap {
-    width: 380px;
-    height: 240px;
-    background: #111;
-    border: 10px solid #1a1a1a;
-    border-radius: 12px 12px 0 0;
-    overflow: hidden;
+  .macbook-screen {
+    width: 400px;
+    height: 250px;
+    background: #000;
+    border: 12px solid #1c1c1e;
+    border-top-width: 14px;
+    border-bottom-width: 14px;
+    border-radius: 16px 16px 0 0;
     position: relative;
     box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+    overflow: hidden;
   }
-  .notebook-base {
-    width: 440px;
+  .macbook-camera {
+    position: absolute;
+    top: 4px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 6px;
+    height: 6px;
+    background: #050505;
+    border-radius: 50%;
+    z-index: 10;
+    border: 1px solid #2c2c2e;
+  }
+  .macbook-base {
+    width: 460px;
     height: 10px;
-    background: #333;
-    border-radius: 0 0 10px 10px;
+    background: #3a3a3c;
+    border-radius: 0 0 12px 12px;
     position: relative;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.4);
   }
-  .notebook-base::after {
+  .macbook-base::before {
     content: "";
     position: absolute;
     top: 0;
@@ -1369,65 +1385,69 @@
     transform: translateX(-50%);
     width: 60px;
     height: 4px;
-    background: #111;
+    background: #1c1c1e;
     border-radius: 0 0 4px 4px;
   }
   
-  /* Tablet */
-  .devices-row .showcase-tablet {
-    position: absolute;
-    left: 340px;
-    top: 80px;
-    z-index: 2;
+  /* iPad Pro Mockup */
+  .mockup-ipad {
+    width: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-shrink: 0;
   }
-  .device-tablet {
+  .ipad-screen {
     width: 180px;
     height: 250px;
-    background: #111;
-    border: 8px solid #1a1a1a;
-    border-radius: 18px;
-    overflow: hidden;
+    background: #000;
+    border: 10px solid #1c1c1e;
+    border-radius: 20px;
     position: relative;
-    box-shadow: 0 20px 45px rgba(0,0,0,0.6);
-    display: flex;
-    flex-direction: column;
-  }
-  .tablet-home-btn {
-    width: 6px;
-    height: 6px;
-    background: #333;
-    border-radius: 50%;
-    margin: 4px auto;
-  }
-
-  /* Phone */
-  .devices-row .showcase-phone {
-    position: absolute;
-    left: 470px;
-    top: 110px;
-    z-index: 3;
-  }
-  .device-phone {
-    width: 120px;
-    height: 230px;
-    background: #111;
-    border: 6px solid #1a1a1a;
-    border-radius: 16px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.6);
     overflow: hidden;
-    position: relative;
-    box-shadow: 0 20px 50px rgba(0,0,0,0.7);
-    display: flex;
-    flex-direction: column;
   }
-  .phone-notch {
+  .ipad-camera {
     position: absolute;
-    top: 0;
+    top: 3px;
     left: 50%;
     transform: translateX(-50%);
-    width: 48px;
-    height: 8px;
-    background: #1a1a1a;
-    border-radius: 0 0 6px 6px;
+    width: 4px;
+    height: 4px;
+    background: #000;
+    border-radius: 50%;
+    z-index: 10;
+  }
+
+  /* iPhone 15 Pro Mockup */
+  .mockup-iphone {
+    width: 130px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-shrink: 0;
+  }
+  .iphone-screen {
+    width: 114px;
+    height: 238px;
+    background: #000;
+    border: 6px solid #1c1c1e;
+    border-radius: 22px;
+    position: relative;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  .iphone-dynamic-island {
+    position: absolute;
+    top: 6px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 36px;
+    height: 9px;
+    background: #000;
+    border-radius: 10px;
     z-index: 10;
   }
 
@@ -1574,30 +1594,21 @@
     }
     
     /* App mobile section/mockups adjustments */
-    .devices-row {
-      height: auto !important;
-      display: flex !important;
+    .devices-showcase-row {
       flex-direction: column !important;
       align-items: center !important;
       gap: 30px !important;
     }
-    .devices-row .showcase-notebook, 
-    .devices-row .showcase-tablet, 
-    .devices-row .showcase-phone {
-      position: relative !important;
-      left: auto !important;
-      top: auto !important;
-      z-index: 1 !important;
-    }
-    .device-notebook {
+    .mockup-macbook {
       width: 100% !important;
-      max-width: 400px !important;
+      max-width: 380px !important;
     }
-    .notebook-screen-wrap {
-      width: 100% !important;
+    .macbook-screen {
+      width: 340px !important;
+      height: 212px !important;
     }
-    .notebook-base {
-      width: 100% !important;
+    .macbook-base {
+      width: 380px !important;
     }
   }
 
@@ -2214,7 +2225,7 @@
 </section>
 
 <!-- ============ SEÇÃO MULTI-DISPOSITIVOS ============ -->
-<section class="reveal" id="s2c" style="border-top:1px solid var(--line); padding:130px 6vw;">
+<section class="reveal" id="s2c" style="border-top:1px solid var(--line); padding:100px 6vw;">
   <div class="section-head">
     <span class="tag">CRM Multitela</span>
     <h2>Uma única experiência, em qualquer dispositivo</h2>
@@ -2227,104 +2238,122 @@
     <div class="showcase-group">
       <div class="showcase-title-wrap">
         <span class="showcase-num">01</span>
-        <h3>Time de Campo (Representante)</h3>
+        <h3>Time de Campo (Representante) - Atividades & Roteiros</h3>
       </div>
-      <p class="showcase-subtitle">Roteiros de visita inteligentes, check-in por geolocalização em um toque e facilidade na estrada.</p>
+      <p class="showcase-subtitle">O representante em trânsito visualiza suas tarefas do dia e o status da carteira de forma ágil e otimizada.</p>
       
-      <div class="devices-row">
-        <!-- Notebook -->
-        <div class="showcase-notebook">
-          <div class="device-notebook">
-            <div class="notebook-screen-wrap">
-              <div class="phone-screen">
-                <div class="scr-header">
-                  <span class="scr-logo">CP</span>
-                  <span class="scr-title">CRM Carton Pack · Representante</span>
-                </div>
-                <div class="scr-content" style="flex-direction:row; padding:10px; gap:10px;">
-                  <!-- Sidebar (Notebook only) -->
-                  <div style="width:70px; background:#161616; border-radius:6px; padding:6px; display:flex; flex-direction:column; gap:4px; font-size:7px; color:var(--gray);">
-                    <div style="color:var(--lime); font-weight:bold;">● Rota</div>
-                    <div>👥 Clientes</div>
-                    <div>📊 Metas</div>
-                    <div>⚙ Ajustes</div>
-                  </div>
-                  <!-- Content list -->
-                  <div style="flex:1; display:flex; flex-direction:column; gap:6px;">
-                    <div style="font-size:9px; font-weight:700; color:var(--gray); font-family:monospace; text-transform:uppercase;">Visitas de Hoje</div>
-                    <div class="mock-card">
-                      <div style="display:flex; justify-content:space-between; align-items:center;">
-                        <span class="mock-title">Sul Pack Ltda</span>
-                        <span style="font-size:7px; background:rgba(240,196,25,0.15); color:#f0c419; padding:1px 4px; border-radius:10px;">Atenção</span>
-                      </div>
-                      <div class="mock-meta">Rota: Sapucaia do Sul · 09:30</div>
-                      <div class="mock-btn">✓ Realizar Check-in</div>
-                    </div>
-                    <div class="mock-card">
-                      <div style="display:flex; justify-content:space-between; align-items:center;">
-                        <span class="mock-title">Ritter Embalagens</span>
-                        <span style="font-size:7px; background:rgba(72,199,103,0.15); color:#48c767; padding:1px 4px; border-radius:10px;">Ativo</span>
-                      </div>
-                      <div class="mock-meta">Rota: Caxias do Sul · 14:00</div>
-                      <div class="mock-btn done">✓ Check-in Realizado</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="notebook-base"></div>
-          </div>
-        </div>
-
-        <!-- Tablet -->
-        <div class="showcase-tablet">
-          <div class="device-tablet">
+      <div class="devices-showcase-row">
+        <!-- Laptop (MacBook) -->
+        <div class="mockup-macbook">
+          <div class="macbook-screen">
+            <div class="macbook-camera"></div>
             <div class="phone-screen">
               <div class="scr-header">
                 <span class="scr-logo">CP</span>
-                <span class="scr-title">Rotas</span>
+                <span class="scr-title">CRM Comercial - Representante</span>
               </div>
-              <div class="scr-content">
-                <div style="font-size:8px; font-weight:700; color:var(--gray); text-transform:uppercase;">Roteiro de Campo</div>
-                <div class="mock-card">
-                  <div class="mock-title" style="font-size:11px;">Sul Pack Ltda</div>
-                  <div class="mock-meta">09:30 · Check-in Pendente</div>
-                  <div class="mock-btn">Realizar Check-in</div>
+              <div class="scr-content" style="flex-direction:row; padding:6px; gap:6px;">
+                <!-- Sidebar -->
+                <div style="width:64px; background:#161616; border-radius:4px; padding:4px; display:flex; flex-direction:column; gap:4px; font-size:6px; color:var(--gray);">
+                  <div style="color:var(--lime); font-weight:bold;">● Atividades</div>
+                  <div>👥 Clientes</div>
+                  <div>📊 Histórico</div>
+                  <div>📈 Painel</div>
+                  <div>🗺 Mapa</div>
                 </div>
-                <div class="mock-card">
-                  <div class="mock-title" style="font-size:11px;">Ritter Embalagens</div>
-                  <div class="mock-meta">14:00 · Visitado</div>
-                  <div class="mock-btn done">✓ Sucesso</div>
+                <!-- Kanban Columns -->
+                <div style="flex:1; display:flex; gap:4px;">
+                  <div style="flex:1; background:#161616; border-radius:4px; padding:4px; display:flex; flex-direction:column; gap:4px;">
+                    <span style="font-size:7px; font-weight:700; color:var(--gray);">A Fazer</span>
+                    <div class="mock-card" style="padding:4px;">
+                      <div class="mock-title" style="font-size:7px; margin-bottom: 2px;">Sul Pack Ltda</div>
+                      <div class="mock-meta" style="font-size:6px;">Telefonar (Kraft)</div>
+                    </div>
+                  </div>
+                  <div style="flex:1; background:#161616; border-radius:4px; padding:4px; display:flex; flex-direction:column; gap:4px;">
+                    <span style="font-size:7px; font-weight:700; color:var(--gray);">Em Andamento</span>
+                    <div class="mock-card" style="padding:4px;">
+                      <div class="mock-title" style="font-size:7px; margin-bottom: 2px;">Ritter Embalagens</div>
+                      <div class="mock-meta" style="font-size:6px;">Visita Técnica</div>
+                    </div>
+                  </div>
+                  <div style="flex:1; background:#161616; border-radius:4px; padding:4px; display:flex; flex-direction:column; gap:4px;">
+                    <span style="font-size:7px; font-weight:700; color:var(--gray);">Concluído</span>
+                    <div class="mock-card" style="padding:4px; opacity:0.5;">
+                      <div class="mock-title" style="font-size:7px; margin-bottom: 2px;">Delta Embalagens</div>
+                      <div class="mock-meta" style="font-size:6px;">Pedido Fechado</div>
+                    </div>
+                  </div>
                 </div>
               </div>
-              <div class="tablet-home-btn"></div>
+            </div>
+          </div>
+          <div class="macbook-base"></div>
+        </div>
+
+        <!-- Tablet (iPad) -->
+        <div class="mockup-ipad">
+          <div class="ipad-screen">
+            <div class="ipad-camera"></div>
+            <div class="phone-screen">
+              <div class="scr-header">
+                <span class="scr-logo">CP</span>
+                <span class="scr-title">Atividades</span>
+              </div>
+              <div class="scr-content" style="flex-direction:row; padding:6px; gap:6px;">
+                <!-- Collapsed Sidebar -->
+                <div style="width:18px; background:#161616; border-radius:4px; padding:4px; display:flex; flex-direction:column; gap:8px; align-items:center; font-size:7px; color:var(--gray);">
+                  <div style="color:var(--lime);">●</div>
+                  <div>👥</div>
+                  <div>📊</div>
+                  <div>📈</div>
+                  <div>🗺</div>
+                </div>
+                <!-- Kanban Content -->
+                <div style="flex:1; display:flex; flex-direction:column; gap:4px;">
+                  <div style="background:#161616; border-radius:4px; padding:4px;">
+                    <span style="font-size:7px; font-weight:700; color:var(--gray);">Em Andamento</span>
+                    <div class="mock-card" style="padding:4px; margin-top:2px;">
+                      <div class="mock-title" style="font-size:8px; margin-bottom: 2px;">Ritter Embalagens</div>
+                      <div class="mock-meta" style="font-size:6.5px;">Visita Técnica</div>
+                    </div>
+                  </div>
+                  <div style="background:#161616; border-radius:4px; padding:4px;">
+                    <span style="font-size:7px; font-weight:700; color:var(--gray);">A Fazer</span>
+                    <div class="mock-card" style="padding:4px; margin-top:2px;">
+                      <div class="mock-title" style="font-size:8px;">Sul Pack Ltda</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
 
-        <!-- Phone -->
-        <div class="showcase-phone">
-          <div class="device-phone">
-            <div class="phone-notch"></div>
-            <div class="phone-screen">
-              <div class="scr-header" style="padding-top:14px;">
+        <!-- Phone (iPhone) -->
+        <div class="mockup-iphone">
+          <div class="iphone-screen">
+            <div class="iphone-dynamic-island"></div>
+            <div class="phone-screen" style="padding-top:16px;">
+              <div class="scr-header">
                 <span class="scr-logo">CP</span>
-                <span class="scr-title">Minha Rota</span>
+                <span class="scr-title">Minhas Atividades</span>
               </div>
-              <div class="scr-content" style="padding:6px; gap:5px;">
-                <div class="mock-card" style="padding:5px;">
-                  <div class="mock-title" style="font-size:10px;">Sul Pack</div>
-                  <div class="mock-btn" style="font-size:7px; padding:2px;">✓ Check-in</div>
+              <div class="scr-content" style="padding:4px; gap:4px;">
+                <div style="font-size:7px; font-weight:700; color:var(--gray); text-transform:uppercase;">Visitas de Hoje</div>
+                <div class="mock-card" style="padding:4px; border-left:3px solid var(--lime);">
+                  <div class="mock-title" style="font-size:8px; margin-bottom: 2px;">Ritter Embalagens</div>
+                  <div class="mock-meta" style="font-size:7px;">Status: Visita Técnica</div>
                 </div>
-                <div class="mock-card" style="padding:5px;">
-                  <div class="mock-title" style="font-size:10px;">Ritter</div>
-                  <div class="mock-btn done" style="font-size:7px; padding:2px;">✓ Feito</div>
+                <div class="mock-card" style="padding:4px; border-left:3px solid #ef4444;">
+                  <div class="mock-title" style="font-size:8px; margin-bottom: 2px;">Sul Pack Ltda</div>
+                  <div class="mock-meta" style="font-size:7px;">Status: Telefonar</div>
                 </div>
               </div>
-              <div style="background:#161616; display:flex; justify-content:space-around; padding:4px 0; font-size:7px; border-top:1px solid var(--line);">
-                <span style="color:var(--lime)">Rota</span>
+              <div style="background:#161616; display:flex; justify-content:space-around; padding:3px 0; font-size:6px; border-top:1px solid var(--line);">
+                <span style="color:var(--lime)">Atividades</span>
                 <span>Clientes</span>
-                <span>Metas</span>
+                <span>Mapa</span>
               </div>
             </div>
           </div>
@@ -2336,97 +2365,107 @@
     <div class="showcase-group">
       <div class="showcase-title-wrap">
         <span class="showcase-num">02</span>
-        <h3>Painel da Gestão (Supervisor)</h3>
+        <h3>Painel da Gestão (Supervisor) - KPIs & Equipe</h3>
       </div>
-      <p class="showcase-subtitle">Visão panorâmica de metas, acompanhamento do time de campo em tempo real e aprovações de crédito rápidas.</p>
+      <p class="showcase-subtitle">O gestor acompanha o desempenho do time, metas do mês e realiza aprovações críticas de qualquer local.</p>
       
-      <div class="devices-row">
-        <!-- Notebook -->
-        <div class="showcase-notebook">
-          <div class="device-notebook">
-            <div class="notebook-screen-wrap">
-              <div class="phone-screen">
-                <div class="scr-header">
-                  <span class="scr-logo" style="background:#3b82f6; color:white;">CP</span>
-                  <span class="scr-title">Supervisão Comercial · Gestor</span>
+      <div class="devices-showcase-row">
+        <!-- Laptop (MacBook) -->
+        <div class="mockup-macbook">
+          <div class="macbook-screen">
+            <div class="macbook-camera"></div>
+            <div class="phone-screen">
+              <div class="scr-header">
+                <span class="scr-logo" style="background:#3b82f6; color:white;">CP</span>
+                <span class="scr-title">CRM Comercial - Supervisão</span>
+              </div>
+              <div class="scr-content" style="flex-direction:row; padding:6px; gap:6px;">
+                <!-- Sidebar -->
+                <div style="width:64px; background:#161616; border-radius:4px; padding:4px; display:flex; flex-direction:column; gap:4px; font-size:6px; color:var(--gray);">
+                  <div>● Atividades</div>
+                  <div>👥 Clientes</div>
+                  <div>📊 Histórico</div>
+                  <div style="color:#3b82f6; font-weight:bold;">📈 Painel</div>
+                  <div>🗺 Mapa</div>
                 </div>
-                <div class="scr-content" style="flex-direction:row; padding:10px; gap:10px;">
-                  <!-- Sidebar -->
-                  <div style="width:70px; background:#161616; border-radius:6px; padding:6px; display:flex; flex-direction:column; gap:4px; font-size:7px; color:var(--gray);">
-                    <div style="color:#3b82f6; font-weight:bold;">📊 Painel</div>
-                    <div>👥 Equipe</div>
-                    <div>🔔 Alertas</div>
-                  </div>
-                  <!-- Content Area -->
-                  <div style="flex:1; display:flex; flex-direction:column; gap:6px;">
-                    <div style="display:flex; gap:6px;">
-                      <div style="flex:1; background:#161616; border-radius:4px; padding:4px; font-size:8px;">
-                        <span style="color:#3b82f6">R$ 187k</span><br><span style="font-size:6px;color:var(--gray)">Pipeline</span>
-                      </div>
-                      <div style="flex:1; background:#161616; border-radius:4px; padding:4px; font-size:8px;">
-                        <span style="color:var(--green)">31</span><br><span style="font-size:6px;color:var(--gray)">Visitas</span>
-                      </div>
+                <!-- Dashboard Content -->
+                <div style="flex:1; display:flex; flex-direction:column; gap:6px;">
+                  <div style="display:flex; gap:4px;">
+                    <div style="flex:1; background:#161616; border-radius:3px; padding:3px; font-size:7px;">
+                      <span style="color:#3b82f6; font-weight:bold;">R$ 187k</span><br><span style="font-size:5px;color:var(--gray)">Pipeline</span>
                     </div>
-                    <div class="mock-card" style="border-color:rgba(239,68,68,0.3); background:rgba(239,68,68,0.02);">
-                      <div style="font-weight:700; color:#ef4444; font-size:8px;">🔔 Aprovação Necessária</div>
-                      <div style="font-size:8px; color:var(--white);">Ritter Pack · Amostra Kraft 40x40</div>
-                      <div style="display:flex; gap:4px; margin-top:3px;">
-                        <span style="background:var(--green); color:black; font-size:6.5px; padding:1px 4px; border-radius:3px; font-weight:bold; cursor:pointer;">Sim</span>
-                        <span style="background:var(--red); color:white; font-size:6.5px; padding:1px 4px; border-radius:3px; font-weight:bold; cursor:pointer;">Não</span>
-                      </div>
+                    <div style="flex:1; background:#161616; border-radius:3px; padding:3px; font-size:7px;">
+                      <span style="color:var(--green); font-weight:bold;">31/50</span><br><span style="font-size:5px;color:var(--gray)">Visitas</span>
+                    </div>
+                  </div>
+                  <div class="mock-card" style="padding:4px;">
+                    <span class="mock-title" style="font-size:7px; margin-bottom: 2px;">Equipe Ativa</span>
+                    <div style="font-size:6px; color:var(--gray); margin-top:2px; line-height: 1.3;">
+                      Lucas Ferreira - R$ 84k (Em Campo)<br>
+                      Marina Souza - R$ 61k (Em Campo)
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-            <div class="notebook-base"></div>
           </div>
+          <div class="macbook-base"></div>
         </div>
 
-        <!-- Tablet -->
-        <div class="showcase-tablet">
-          <div class="device-tablet">
+        <!-- Tablet (iPad) -->
+        <div class="mockup-ipad">
+          <div class="ipad-screen">
+            <div class="ipad-camera"></div>
             <div class="phone-screen">
               <div class="scr-header">
                 <span class="scr-logo" style="background:#3b82f6; color:white;">CP</span>
                 <span class="scr-title">Painel Geral</span>
               </div>
-              <div class="scr-content">
-                <div style="font-size:8px; font-weight:700; color:var(--gray); text-transform:uppercase;">Status de Vendas</div>
-                <div class="mock-card">
-                  <div style="font-size:11px; font-weight:bold; color:#3b82f6;">R$ 187.966,25</div>
-                  <div class="mock-meta">Pipeline Total do Mês</div>
+              <div class="scr-content" style="flex-direction:row; padding:6px; gap:6px;">
+                <!-- Collapsed Sidebar -->
+                <div style="width:18px; background:#161616; border-radius:4px; padding:4px; display:flex; flex-direction:column; gap:8px; align-items:center; font-size:7px; color:var(--gray);">
+                  <div>●</div>
+                  <div>👥</div>
+                  <div>📊</div>
+                  <div style="color:#3b82f6;">📈</div>
+                  <div>🗺</div>
                 </div>
-                <div class="mock-card" style="border-color:rgba(239,68,68,0.3);">
-                  <div style="color:#ef4444; font-weight:bold; font-size:9px;">Aprovar Amostra?</div>
-                  <div style="font-size:8px; color:var(--gray); margin-top:2px;">Ritter Embalagens - Urgente</div>
-                  <div style="display:flex; gap:6px; margin-top:4px;">
-                    <span style="background:var(--green); color:black; font-size:7px; padding:2px 6px; border-radius:3px; font-weight:bold;">Aprovar</span>
+                <!-- Dashboard Content -->
+                <div style="flex:1; display:flex; flex-direction:column; gap:4px;">
+                  <div style="background:#161616; border-radius:4px; padding:4px;">
+                    <span style="font-size:8px; font-weight:bold; color:#3b82f6;">R$ 187k</span>
+                    <div class="mock-meta" style="font-size:6px;">Pipeline do Mês</div>
+                  </div>
+                  <div style="background:#161616; border-radius:4px; padding:4px;">
+                    <span style="font-size:8px; font-weight:bold; color:var(--white);">Equipe</span>
+                    <div class="mock-meta" style="font-size:6px;">2 Reps em campo</div>
                   </div>
                 </div>
               </div>
-              <div class="tablet-home-btn"></div>
             </div>
           </div>
         </div>
 
-        <!-- Phone -->
-        <div class="showcase-phone">
-          <div class="device-phone">
-            <div class="phone-notch"></div>
-            <div class="phone-screen">
-              <div class="scr-header" style="padding-top:14px;">
+        <!-- Phone (iPhone) -->
+        <div class="mockup-iphone">
+          <div class="iphone-screen">
+            <div class="iphone-dynamic-island"></div>
+            <div class="phone-screen" style="padding-top:16px;">
+              <div class="scr-header">
                 <span class="scr-logo" style="background:#3b82f6; color:white;">CP</span>
-                <span class="scr-title">Gestão</span>
+                <span class="scr-title">Supervisão</span>
               </div>
-              <div class="scr-content" style="padding:6px; gap:5px;">
-                <div class="mock-card" style="padding:5px; border-color:rgba(239,68,68,0.4);">
-                  <div style="font-size:8.5px; font-weight:bold; color:#ef4444;">Aprovação Amostra</div>
-                  <div style="font-size:7.5px; color:var(--gray);">Ritter Pack</div>
-                  <div style="background:var(--green); color:black; font-size:7px; font-weight:bold; text-align:center; padding:1px; border-radius:2px; margin-top:3px;">Aprovar</div>
+              <div class="scr-content" style="padding:4px; gap:4px;">
+                <div class="mock-card" style="padding:4px;">
+                  <div style="font-size:7px; color:var(--gray);">Pipeline Total</div>
+                  <div style="font-size:9px; font-weight:bold; color:#3b82f6;">R$ 187k</div>
+                </div>
+                <div class="mock-card" style="padding:4px; border-left:3px solid #3b82f6;">
+                  <div class="mock-title" style="font-size:8px; margin-bottom: 2px;">Lucas Ferreira</div>
+                  <div class="mock-meta" style="font-size:7px;">Última visita: Ritter (14:00)</div>
                 </div>
               </div>
-              <div style="background:#161616; display:flex; justify-content:space-around; padding:4px 0; font-size:7px; border-top:1px solid var(--line);">
+              <div style="background:#161616; display:flex; justify-content:space-around; padding:3px 0; font-size:6px; border-top:1px solid var(--line);">
                 <span style="color:#3b82f6">Painel</span>
                 <span>Equipe</span>
                 <span>Alertas</span>
