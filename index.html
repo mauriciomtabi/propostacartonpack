@@ -1280,7 +1280,7 @@
     border-color: var(--gray);
   }
 
-  /* ===== APP SECTION STYLES (Clean Phone Mockup) ===== */
+  /* ===== APP SECTION STYLES (Photorealistic Mockups) ===== */
   .app-section-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -1288,188 +1288,157 @@
     align-items: stretch;
     margin-top: 40px;
   }
-  .phone-mockup-wrapper {
+  .devices-showcase-row {
     display: flex;
+    flex-direction: row;
     justify-content: center;
-    margin-bottom: 10px;
+    align-items: flex-end;
+    gap: 16px;
+    margin: 20px auto;
+    width: 100%;
   }
-  .phone-case {
-    width: 290px;
-    height: 560px;
-    background: #2a2a2a;
-    border: 12px solid #161616;
-    border-radius: 40px;
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.05);
+
+  /* MacBook Mockup */
+  .real-macbook {
+    width: 240px;
+    height: 139px;
+    background-image: url('https://cdn.jsdelivr.net/npm/html5-device-mockups@3.2.1/device-mockups/Macbook/portrait_black.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
     position: relative;
+    flex-shrink: 0;
+  }
+  .real-macbook .screen {
+    position: absolute;
+    top: 9.638%;
+    left: 12.907%;
+    width: 74.186%;
+    height: 75.301%;
+    background: #0f0f0f;
     overflow: hidden;
   }
-  .phone-notch {
-    position: absolute;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 120px;
-    height: 18px;
-    background: #161616;
-    border-radius: 0 0 14px 14px;
-    z-index: 10;
+
+  /* iPad Mockup */
+  .real-ipad {
+    width: 100px;
+    height: 134px;
+    background-image: url('https://cdn.jsdelivr.net/npm/html5-device-mockups@3.2.1/device-mockups/iPad/portrait_black.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    position: relative;
+    flex-shrink: 0;
   }
+  .real-ipad .screen {
+    position: absolute;
+    top: 11.255%;
+    left: 12.5%;
+    width: 75%;
+    height: 77.49%;
+    background: #0f0f0f;
+    overflow: hidden;
+  }
+
+  /* iPhone Mockup */
+  .real-iphone {
+    width: 70px;
+    height: 142px;
+    background-image: url('https://cdn.jsdelivr.net/npm/html5-device-mockups@3.2.1/device-mockups/iPhone7/portrait_black.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    position: relative;
+    flex-shrink: 0;
+  }
+  .real-iphone .screen {
+    position: absolute;
+    top: 11.585%;
+    left: 8.444%;
+    width: 83.111%;
+    height: 75.847%;
+    background: #0f0f0f;
+    overflow: hidden;
+  }
+
+  /* Screen Content Detail inside Mockups */
   .phone-screen {
     width: 100%;
     height: 100%;
     background: #0f0f0f;
     display: flex;
     flex-direction: column;
-    font-size: 12px;
     color: #fafafa;
     position: relative;
   }
-  .phone-header {
+  .scr-header {
     background: #161616;
-    padding: 24px 14px 10px;
     border-bottom: 1px solid var(--line);
+    padding: 3px 5px;
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 4px;
+    font-size: 6px;
   }
-  .ph-logo {
-    width: 24px;
-    height: 24px;
+  .scr-logo {
+    width: 10px;
+    height: 10px;
     background: var(--lime);
     color: var(--black);
     font-weight: 900;
-    border-radius: 6px;
+    border-radius: 2px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 9px;
+    font-size: 5px;
   }
-  .ph-rep-info {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-  }
-  .ph-name {
+  .scr-title {
     font-weight: 700;
-    font-size: 11px;
     color: var(--white);
+    font-size: 5px;
   }
-  .ph-status {
-    font-size: 9px;
-    color: var(--lime);
-  }
-  .phone-content {
+  .scr-content {
     flex: 1;
-    padding: 14px;
+    background: #0f0f0f;
+    padding: 4px;
     overflow-y: auto;
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 4px;
   }
-  .phone-section-title {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 10.5px;
-    color: var(--gray);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    text-align: left;
-  }
-  .phone-card-visit {
+  .mock-card {
     background: var(--card);
     border: 1px solid var(--line);
-    border-radius: 12px;
-    padding: 12px;
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
+    border-radius: 4px;
+    padding: 4px;
+    font-size: 6px;
     text-align: left;
   }
-  .pcv-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  .pcv-time {
-    font-family: 'JetBrains Mono', monospace;
+  .mock-title {
     font-weight: 700;
-    color: var(--gray);
-  }
-  .pcv-status {
-    font-size: 9px;
-    font-weight: 700;
-    padding: 2px 6px;
-    border-radius: 10px;
-    font-family: 'JetBrains Mono', monospace;
-    text-transform: uppercase;
-  }
-  .pcv-status.attention {
-    background: rgba(240, 196, 25, 0.15);
-    color: #f0c419;
-  }
-  .pcv-status.active {
-    background: rgba(72, 199, 103, 0.15);
-    color: #48c767;
-  }
-  .pcv-name {
-    font-weight: 700;
-    font-size: 13px;
     color: var(--white);
+    font-size: 6.5px;
+    margin-bottom: 1px;
   }
-  .pcv-desc {
-    font-size: 11px;
+  .mock-meta {
+    font-size: 5px;
     color: var(--gray);
-    line-height: 1.4;
   }
-  .pcv-action-btn {
-    margin-top: 4px;
+  .mock-btn {
     background: var(--lime);
     color: var(--black);
-    text-align: center;
-    padding: 8px;
-    border-radius: 6px;
     font-weight: 800;
-    cursor: pointer;
-    font-size: 11px;
+    text-align: center;
+    padding: 2px;
+    border-radius: 2px;
+    margin-top: 2px;
+    font-size: 5px;
     text-transform: uppercase;
-    letter-spacing: 0.02em;
-    transition: background 0.2s;
   }
-  .pcv-action-btn.check-done {
-    background: rgba(180, 217, 50, 0.1);
+  .mock-btn.done {
+    background: rgba(180,217,50,0.1);
     color: var(--lime);
-    border: 1px solid rgba(180, 217, 50, 0.2);
-    cursor: default;
-  }
-  .phone-quick-actions {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 8px;
-    margin-top: 4px;
-  }
-  .qa-item {
-    background: var(--card2);
-    border: 1px solid var(--line);
-    border-radius: 8px;
-    padding: 8px;
-    text-align: center;
-    font-weight: 600;
-    font-size: 10px;
-    cursor: pointer;
-    color: var(--white);
-  }
-  .phone-nav-bar {
-    background: #161616;
-    border-top: 1px solid var(--line);
-    padding: 10px 0 20px;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    text-align: center;
-    font-size: 10px;
-    color: var(--gray);
-  }
-  .phone-nav-bar span.active {
-    color: var(--lime);
-    font-weight: 700;
+    border: 1px solid rgba(180,217,50,0.15);
   }
 
   .bc-list {
@@ -1568,6 +1537,11 @@
     .app-section-grid {
       grid-template-columns: 1fr !important;
       gap: 30px !important;
+    }
+    .devices-showcase-row {
+      flex-direction: column !important;
+      align-items: center !important;
+      gap: 20px !important;
     }
   }
 
@@ -2186,9 +2160,9 @@
 <!-- ============ SEÇÃO APP MOBILE ============ -->
 <section class="reveal" id="s2c" style="border-top:1px solid var(--line); padding:100px 6vw;">
   <div class="section-head">
-    <span class="tag">CRM na Palma da Mão</span>
-    <h2>Mobilidade e agilidade onde o negócio acontece</h2>
-    <p>O sistema foi desenhado para ser 100% responsivo e utilizável direto do celular. Sem downloads complexos: basta abrir o link e salvar na tela inicial como um aplicativo.</p>
+    <span class="tag">CRM Multitela</span>
+    <h2>Uma única experiência, em qualquer dispositivo</h2>
+    <p>O sistema se adapta de forma inteligente e nativa. Veja o mesmo fluxo adaptado simultaneamente para notebook, tablet e smartphone.</p>
   </div>
 
   <div class="app-section-grid">
@@ -2197,54 +2171,71 @@
     <div class="benefit-card" style="flex-direction: column; gap: 20px; align-items: center; justify-content: space-between;">
       <div style="text-align: center; width: 100%;">
         <div style="font-size: 32px; margin-bottom: 10px;">🚀</div>
-        <h4 style="font-size: 18px; font-weight: 700; color: var(--white); margin-bottom: 6px;">Interface do Representante (Em Campo)</h4>
-        <p style="font-size: 13.5px; color: var(--gray); line-height: 1.5; max-width: 360px; margin: 0 auto 15px;">Interface limpa e otimizada para uso sob o sol, no trânsito ou no pátio do cliente. Registre check-ins geolocalizados e faça anotações com poucos toques.</p>
+        <h4 style="font-size: 18px; font-weight: 700; color: var(--white); margin-bottom: 6px;">Time de Campo (Representante)</h4>
+        <p style="font-size: 13.5px; color: var(--gray); line-height: 1.5; max-width: 360px; margin: 0 auto 15px;">Interface otimizada para o representante em campo. Roteiros de visita rápidos, check-in por geolocalização e cadastros rápidos de onde estiver.</p>
       </div>
 
-      <!-- Mockup Celular Representante -->
-      <div class="phone-mockup-wrapper">
-        <div class="phone-case">
-          <div class="phone-notch"></div>
-          <div class="phone-screen">
-            <div class="phone-header">
-              <span class="ph-logo">CP</span>
-              <div class="ph-rep-info">
-                <span class="ph-name">Lucas Ferreira (Campo)</span>
-                <span class="ph-status">● Online</span>
+      <!-- Photorealistic Devices Row Representante -->
+      <div class="devices-showcase-row">
+        <!-- MacBook -->
+        <div class="real-macbook">
+          <div class="screen">
+            <div class="phone-screen">
+              <div class="scr-header">
+                <span class="scr-logo">CP</span>
+                <span class="scr-title">CRM Comercial - Representante</span>
+              </div>
+              <div class="scr-content" style="flex-direction:row; padding:4px; gap:4px;">
+                <!-- Sidebar -->
+                <div style="width:38px; background:#161616; border-radius:2px; padding:2px; display:flex; flex-direction:column; gap:2px; font-size:4px; color:var(--gray);">
+                  <div style="color:var(--lime); font-weight:bold;">● Rota</div>
+                  <div>👥 Clientes</div>
+                  <div>Metas</div>
+                </div>
+                <!-- Visit list -->
+                <div style="flex:1; display:flex; flex-direction:column; gap:3px;">
+                  <div class="mock-card" style="padding:3px; border-radius:3px;">
+                    <div class="mock-title" style="font-size:5px; margin-bottom:1px;">Sul Pack Ltda</div>
+                    <div class="mock-btn" style="font-size:4px; padding:1px; margin-top:1px;">Check-in</div>
+                  </div>
+                </div>
               </div>
             </div>
-            <div class="phone-content">
-              <div class="phone-section-title">Minha Rota de Hoje</div>
-              <div class="phone-card-visit">
-                <div class="pcv-header">
-                  <span class="pcv-time">09:30</span>
-                  <span class="pcv-status attention">Atenção</span>
-                </div>
-                <div class="pcv-name">Sul Pack Ltda</div>
-                <div class="pcv-desc">Roteiro de visita técnica. Verificar interesse na linha Kraft.</div>
-                <div class="pcv-action-btn">✓ Realizar Check-in</div>
+          </div>
+        </div>
+
+        <!-- iPad -->
+        <div class="real-ipad">
+          <div class="screen">
+            <div class="phone-screen">
+              <div class="scr-header">
+                <span class="scr-logo">CP</span>
+                <span class="scr-title">Rotas</span>
               </div>
-              
-              <div class="phone-card-visit">
-                <div class="pcv-header">
-                  <span class="pcv-time">14:00</span>
-                  <span class="pcv-status active">Ativo</span>
+              <div class="scr-content">
+                <div class="mock-card">
+                  <div class="mock-title" style="font-size:7px;">Sul Pack Ltda</div>
+                  <div class="mock-meta" style="font-size:5.5px;">Check-in pendente</div>
                 </div>
-                <div class="pcv-name">Ritter Embalagens</div>
-                <div class="pcv-desc">Entrega de amostra corrugada 40x40.</div>
-                <div class="pcv-action-btn check-done">✓ Check-in Realizado</div>
-              </div>
-              
-              <div class="phone-quick-actions">
-                <div class="qa-item"><span>📞</span> Ligar</div>
-                <div class="qa-item"><span>📍</span> Rota</div>
-                <div class="qa-item"><span>＋</span> Visita</div>
               </div>
             </div>
-            <div class="phone-nav-bar">
-              <span class="active">🏠 Rota</span>
-              <span>👥 Clientes</span>
-              <span>📊 Metas</span>
+          </div>
+        </div>
+
+        <!-- iPhone -->
+        <div class="real-iphone">
+          <div class="screen">
+            <div class="phone-screen" style="padding-top:2px;">
+              <div class="scr-header" style="padding:2px; gap:2px;">
+                <span class="scr-logo" style="width:8px; height:8px; font-size:4px;">CP</span>
+                <span class="scr-title" style="font-size:4px;">Rota</span>
+              </div>
+              <div class="scr-content" style="padding:2px; gap:2px;">
+                <div class="mock-card" style="padding:2px; border-radius:2px;">
+                  <div class="mock-title" style="font-size:5px;">Sul Pack</div>
+                  <div class="mock-btn" style="font-size:4px; padding:1px; margin-top:1px;">Check-in</div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -2253,7 +2244,6 @@
       <ul class="bc-list" style="width: 100%; margin-top: 10px;">
         <li><strong>Check-in Geolocalizado:</strong> Comprova visitas no local em um clique.</li>
         <li><strong>Foco Comercial:</strong> O sistema lembra quem precisa de contato ou visitas urgentes.</li>
-        <li><strong>Agilidade Comercial:</strong> Cadastre novos leads ou orçamentos direto da conversa.</li>
       </ul>
     </div>
 
@@ -2261,64 +2251,78 @@
     <div class="benefit-card" style="flex-direction: column; gap: 20px; align-items: center; justify-content: space-between;">
       <div style="text-align: center; width: 100%;">
         <div style="font-size: 32px; margin-bottom: 10px;">📊</div>
-        <h4 style="font-size: 18px; font-weight: 700; color: var(--white); margin-bottom: 6px;">Painel da Gestão (Na Palma da Mão)</h4>
-        <p style="font-size: 13.5px; color: var(--gray); line-height: 1.5; max-width: 360px; margin: 0 auto 15px;">Para líderes que precisam de agilidade fora do escritório. Monitore o progresso do pipeline de vendas, rotas do time e tome decisões de qualquer lugar.</p>
+        <h4 style="font-size: 18px; font-weight: 700; color: var(--white); margin-bottom: 6px;">Painel da Gestão (Supervisor)</h4>
+        <p style="font-size: 13.5px; color: var(--gray); line-height: 1.5; max-width: 360px; margin: 0 auto 15px;">Acompanhamento gerencial completo do time de campo. Monitore o mapa, pipeline e faça aprovações em tempo real.</p>
       </div>
 
-      <!-- Mockup Celular Gestor -->
-      <div class="phone-mockup-wrapper">
-        <div class="phone-case">
-          <div class="phone-notch" style="background:#3b82f6;"></div>
-          <div class="phone-screen">
-            <div class="phone-header" style="border-bottom-color: rgba(59, 130, 246, 0.2);">
-              <span class="ph-logo" style="background:#3b82f6; color:white;">CP</span>
-              <div class="ph-rep-info">
-                <span class="ph-name">Supervisão Comercial</span>
-                <span class="ph-status" style="color:#3b82f6;">● Gestão</span>
+      <!-- Photorealistic Devices Row Gestor -->
+      <div class="devices-showcase-row">
+        <!-- MacBook -->
+        <div class="real-macbook">
+          <div class="screen">
+            <div class="phone-screen">
+              <div class="scr-header">
+                <span class="scr-logo" style="background:#3b82f6; color:white;">CP</span>
+                <span class="scr-title">CRM Comercial - Supervisão</span>
+              </div>
+              <div class="scr-content" style="flex-direction:row; padding:4px; gap:4px;">
+                <!-- Sidebar -->
+                <div style="width:38px; background:#161616; border-radius:2px; padding:2px; display:flex; flex-direction:column; gap:2px; font-size:4px; color:var(--gray);">
+                  <div style="color:#3b82f6; font-weight:bold;">● Painel</div>
+                  <div>👥 Equipe</div>
+                  <div>🔔 Alertas</div>
+                </div>
+                <!-- KPI metrics -->
+                <div style="flex:1; display:flex; flex-direction:column; gap:3px;">
+                  <div style="background:#161616; border-radius:2px; padding:2px; font-size:5px;">
+                    <span style="color:#3b82f6; font-weight:bold;">R$ 187k</span><br><span style="color:var(--gray); font-size:4px;">Pipeline</span>
+                  </div>
+                </div>
               </div>
             </div>
-            <div class="phone-content">
-              <div class="phone-section-title">Desempenho Comercial</div>
-              
-              <!-- KPI Row -->
-              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 4px;">
-                <div style="background: var(--card); border: 1px solid var(--line); padding: 8px; border-radius: 8px; text-align: center;">
-                  <div style="font-size: 8px; color: var(--gray);">Pipeline</div>
-                  <div style="font-size: 11px; font-weight: 700; color: #3b82f6;">R$ 187k</div>
-                </div>
-                <div style="background: var(--card); border: 1px solid var(--line); padding: 8px; border-radius: 8px; text-align: center;">
-                  <div style="font-size: 8px; color: var(--gray);">Visitas</div>
-                  <div style="font-size: 11px; font-weight: 700; color: var(--green);">31/50</div>
-                </div>
-              </div>
+          </div>
+        </div>
 
-              <!-- Pending Approval Card -->
-              <div class="phone-card-visit" style="border-color: rgba(239, 68, 68, 0.3); background: rgba(239, 68, 68, 0.02); padding: 10px;">
-                <div class="pcv-header">
-                  <span class="pcv-time" style="color: #ef4444;">Pendente</span>
-                  <span class="pcv-status" style="background: rgba(239,68,68,0.15); color: #ef4444; font-size: 8px;">Amostra</span>
-                </div>
-                <div class="pcv-name" style="font-size:12px;">Ritter Embalagens</div>
-                <div class="pcv-desc" style="font-size:10px;">Solicitação de Amostra Especial de Lote Kraft 40x40.</div>
-                <div style="display:flex; gap:6px; margin-top:4px;">
-                  <div class="pcv-action-btn" style="flex:1; background: var(--green); color: black; margin-top:0; padding:6px; font-size:9.5px;">Aprovar</div>
-                  <div class="pcv-action-btn" style="flex:1; background: #3a3a3c; color: white; margin-top:0; padding:6px; font-size:9.5px;">Recusar</div>
+        <!-- iPad -->
+        <div class="real-ipad">
+          <div class="screen">
+            <div class="phone-screen">
+              <div class="scr-header">
+                <span class="scr-logo" style="background:#3b82f6; color:white;">CP</span>
+                <span class="scr-title">Painel Geral</span>
+              </div>
+              <div class="scr-content">
+                <div class="mock-card">
+                  <span style="font-size:7px; font-weight:bold; color:#3b82f6;">R$ 187k</span>
+                  <div class="mock-meta" style="font-size:5.5px;">Pipeline do Mês</div>
                 </div>
               </div>
             </div>
-            <div class="phone-nav-bar">
-              <span class="active" style="color:#3b82f6;">🏠 Painel</span>
-              <span>👥 Equipe</span>
-              <span>🔔 Alertas</span>
+          </div>
+        </div>
+
+        <!-- iPhone -->
+        <div class="real-iphone">
+          <div class="screen">
+            <div class="phone-screen" style="padding-top:2px;">
+              <div class="scr-header" style="padding:2px; gap:2px;">
+                <span class="scr-logo" style="background:#3b82f6; color:white; width:8px; height:8px; font-size:4px;">CP</span>
+                <span class="scr-title" style="font-size:4px;">Painel</span>
+              </div>
+              <div class="scr-content" style="padding:2px; gap:2px;">
+                <div class="mock-card" style="padding:2px; border-radius:2px;">
+                  <div style="font-size:5.5px; color:#ef4444; font-weight:bold;">Aprovar Amostra</div>
+                  <div class="mock-btn" style="font-size:4px; padding:1px; margin-top:1px; background:#3b82f6; color:white;">Verificar</div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
 
       <ul class="bc-list" style="width: 100%; margin-top: 10px;">
-        <li><strong>Supervisão Instantânea:</strong> Visão do mapa e status de atividades em tempo real.</li>
-        <li><strong>Aprovações Rápidas:</strong> Libere amostras e valide orçamentos especiais na hora.</li>
-        <li><strong>Performance Viva:</strong> KPIs atualizados minuto a minuto na tela do celular.</li>
+        <li><strong>Aprovações Rápidas:</strong> Libere amostras e orçamentos especiais na hora.</li>
+        <li><strong>Performance Viva:</strong> KPIs atualizados minuto a minuto no seu bolso.</li>
       </ul>
     </div>
 
