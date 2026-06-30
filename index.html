@@ -2877,24 +2877,21 @@
     // Format city for Speedio (uppercase, remove accents)
     const cleanCity = city.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toUpperCase();
     
-    const qs = `?cnae=${cnaeCode}&uf=${uf}&municipio=${encodeURIComponent(cleanCity)}`;
-    const vercelApiUrl   = `/api/speedio${qs}`;          // Vercel serverless (deployed)
-    const localProxyUrl  = `http://localhost:3456/speedio/buscarbi${qs}`; // local proxy (presentation)
-    const directUrl      = `https://api-publica.speedio.com.br/buscarbi${qs}`; // direct fallback
-
-    let rawLeads = null;
+    // Strategy: Google Custom Search → extract CNPJs → enrich with CNPJá
+    // The /api/search endpoint handles Google search + CNPJá enrichment server-side
+    const searchQs = `?cnae=${cnaeCode}&uf=${uf}&municipio=${encodeURIComponent(cleanCity)}&sector=${encodeURIComponent(sectorVal)}`;
     let apiError = null;
+    let enrichedResults = null;
 
     const tryFetch = async (url, label) => {
       try {
         const ctrl = new AbortController();
-        const tid = setTimeout(() => ctrl.abort(), 12000);
+        const tid = setTimeout(() => ctrl.abort(), 20000);
         const res = await fetch(url, { signal: ctrl.signal });
         clearTimeout(tid);
         if (!res.ok) throw new Error(`${label} HTTP ${res.status}`);
         const data = await res.json();
-        if (!Array.isArray(data) || data.length === 0) throw new Error(`${label} vazio`);
-        console.log(`[API] ${label} OK: ${data.length} empresas`);
+        console.log(`[API] ${label} OK:`, data);
         return data;
       } catch(e) {
         console.warn(`[API] ${label} falhou:`, e.message);
@@ -2902,73 +2899,21 @@
       }
     };
 
-    // 1) Vercel serverless (works on deployed site with CORS), 2) Local proxy (offline presentation), 3) Direct (last resort)
-    rawLeads = await tryFetch(vercelApiUrl, 'Vercel API');
-    if (!rawLeads) rawLeads = await tryFetch(localProxyUrl, 'Proxy local');
-    if (!rawLeads) rawLeads = await tryFetch(directUrl, 'Direct API');
-    if (!rawLeads) apiError = new Error('Todas as fontes falharam');
+    // Call /api/search (Google Custom Search + CNPJá enrichment)
+    const searchResp = await tryFetch(`/api/search${searchQs}`, 'Google+CNPJá');
+    if (searchResp && searchResp.results && searchResp.results.length > 0) {
+      enrichedResults = searchResp.results;
+    } else {
+      apiError = new Error(searchResp?.message || 'Nenhum resultado encontrado pelo Google');
+    }
     
     try {
-      if (apiError || !Array.isArray(rawLeads) || rawLeads.length === 0) {
-        throw new Error('API query failed or returned empty results.');
+      if (apiError || !enrichedResults || enrichedResults.length === 0) {
+        throw new Error(apiError ? apiError.message : 'Nenhum resultado encontrado.');
       }
-      
-      // Limit to 5 results per search
-      const leads = rawLeads.slice(0, 5);
-      
-      // Query CNPJA for detailed QSA (also through proxy)
-      const fetchPromises = leads.map(l => {
-        const cleanCNPJ = l.CNPJ.replace(/\D/g, '');
-        const vercelCnpja = `/api/cnpja/${cleanCNPJ}`;
-        const localCnpja  = `http://localhost:3456/cnpja/office/${cleanCNPJ}`;
-        const directCnpja = `https://open.cnpja.com/office/${cleanCNPJ}`;
-        
-        const fetchCnpja = (url) => fetch(url).then(r => { if(!r.ok) throw new Error(); return r.json(); });
-
-        return fetchCnpja(vercelCnpja)
-          .catch(() => fetchCnpja(localCnpja))
-          .catch(() => fetchCnpja(directCnpja))
-          .catch(() => {
-            // All failed
-            const dummy = null;
-            return fetchCnpja(dummy)
-              .catch(() => {
-                // Safe local mapping if both proxies fail for details lookup
-                return {
-                  taxId: l.CNPJ,
-                  alias: l['NOME FANTASIA'] || '',
-                  company: {
-                    name: l['RAZAO SOCIAL'],
-                    equity: 1200000,
-                    nature: { text: 'Sociedade Empresária Limitada (206-2)' },
-                    simples: { optant: true },
-                    members: [
-                      { person: { name: 'Carlos Rodrigues da Silva' }, role: { text: 'Sócio-Administrador' } },
-                      { person: { name: 'Eduardo Rosa da Costa' }, role: { text: 'Sócio-Administrador' } }
-                    ]
-                  },
-                  status: { text: l.STATUS || 'ATIVA' },
-                  address: {
-                    street: l.LOGRADOURO || '',
-                    number: l.NUMERO || '',
-                    district: l.BAIRRO || '',
-                    city: l.MUNICIPIO || '',
-                    state: l.UF || '',
-                    zip: l.CEP || ''
-                  },
-                  emails: l.EMAIL ? [{ address: l.EMAIL }] : [],
-                  phones: l.TELEFONE ? [{ area: l.DDD || '', number: l.TELEFONE }] : [],
-                  mainActivity: { text: `${l['CNAE PRINCIPAL CODIGO']} - ${l['CNAE PRINCIPAL DESCRICAO']}` }
-                };
-              });
-          });
-      });
-      
-      const results = await Promise.all(fetchPromises);
-      renderResults(results);
-      
+      renderResults(enrichedResults.slice(0, 5));
     } catch (e) {
-      console.warn("API Offline or Rate-Limited. Using smart localized fallback.", e);
+      console.warn("API falhou. Usando fallback inteligente.", e);
       const fallbackResults = getSmartFallback(cnaeCode, uf, city, sectorVal);
       setTimeout(() => {
         renderResults(fallbackResults);
