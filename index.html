@@ -2848,7 +2848,7 @@
     const capitalVal = document.getElementById('prospec-capital').value;
     
     document.getElementById('prospec-results').style.display = 'none';
-    document.getElementById('prospec-detail-container').style.display = 'none';
+    closeFichaModal(); // close detail modal if open
     document.getElementById('prospec-loading').style.display = 'block';
     
     // Parse CNAE from user input (check for 7 digits first, otherwise fallback to keyword)
