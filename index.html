@@ -1501,6 +1501,14 @@
     }
   }
 
+
+  @keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+  .prospec-spinner {
+    animation: spin 1s linear infinite;
+  }
 </style>
 </head>
 <body>
@@ -1567,7 +1575,7 @@
 <!-- ============ MÓDULOS ============ -->
 <section class="reveal" id="s2">
   <div class="section-head">
-    <span class="tag">Escopo completo · 07 módulos</span>
+    <span class="tag">Escopo completo – 08 módulos</span>
     <h2>Tudo o que o time comercial precisa, em um único sistema</h2>
     <p>Cada módulo nasceu do levantamento real feito pela Thaiane — nada de funcionalidade genérica.</p>
   </div>
@@ -1579,6 +1587,13 @@
     <div class="module-tile"><div class="mn">05</div><h4>Perfil do Cliente</h4><p>Potencial A/B/C, volume mensal e exigências de qualidade.</p></div>
     <div class="module-tile"><div class="mn">06</div><h4>Histórico de Compras</h4><p>Alerta automático de tempo sem comprar, antes que o cliente se perca.</p></div>
     <div class="module-tile"><div class="mn">07</div><h4>Indicadores Individuais</h4><p>Painel de performance por representante: carteira, atividade, conversão.</p></div>
+
+    <div class="module-tile">
+      <div class="mn">08</div>
+      <h4>Prospecção com IA</h4>
+      <p>Busca inteligente ativa baseada no perfil ideal do cliente (ICP).</p>
+    </div>
+
     <div class="module-tile" style="background:linear-gradient(135deg, rgba(180,217,50,0.1), transparent); border-color:rgba(180,217,50,0.3);"><div class="mn">+</div><h4>Painel da Supervisão</h4><p>Todos os representantes, todos os números, em uma única tela — em tempo real.</p></div>
   </div>
 </section>
@@ -1616,6 +1631,11 @@
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 14 8 14s8-8.75 8-14a8 8 0 0 0-8-8z"/></svg>
       <span>Mapa de Campo</span>
     </button>
+    <button class="stab-btn" onclick="showTab('prospec',this)">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+      <span>Prospecção com IA</span>
+    </button>
+
   </div>
 
   <!-- BROWSER WINDOW WRAPPER -->
@@ -1636,6 +1656,7 @@
           <div class="si" onclick="showTab('hist', document.querySelectorAll('.stab-btn')[2])" title="Histórico de Compras"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
           <div class="si" onclick="showTab('painel', document.querySelectorAll('.stab-btn')[3])" title="Painel da Supervisão"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg></div>
           <div class="si" onclick="showTab('mapa', document.querySelectorAll('.stab-btn')[4])" title="Mapa de Campo"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 14 8 14s8-8.75 8-14a8 8 0 0 0-8-8z"/></svg></div>
+          <div class="si" onclick="showTab('prospec', document.querySelectorAll('.stab-btn')[5])" title="Prospecção com IA"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg></div>
         </div>
       </div>
       <!-- TAB PANELS -->
@@ -2108,6 +2129,130 @@
           <div id="crm-map" style="width:100%;height:100%;min-height:420px;border-radius:0 0 10px 10px;"></div>
         </div>
 
+        <!-- ======= ABA 6: PROSPECÇÃO COM IA ======= -->
+        <div class="stab-panel" id="tab-prospec">
+          <div class="app-topbar">
+            <div>
+              <div class="app-topbar-title">Prospecção com IA</div>
+              <div class="app-topbar-sub">Filtro de busca inteligente com enriquecimento automatizado</div>
+            </div>
+            <div style="display:flex;gap:8px">
+              <div class="app-btn-ghost">Histórico</div>
+              <div class="app-btn-lime" onclick="simulateIASearch()">+ Iniciar Prospecção</div>
+            </div>
+          </div>
+          
+          <!-- Search box -->
+          <div style="background:var(--card2); border:1px solid var(--line); border-radius:10px; padding:20px; margin-bottom:20px;">
+            <div style="display:grid; grid-template-columns: 1.5fr 0.6fr 1.2fr 1.2fr 1fr; gap:12px; align-items:flex-end;">
+              <div>
+                <label style="display:block; font-size:10px; color:var(--gray); font-family:'JetBrains Mono',monospace; margin-bottom:8px; text-transform:uppercase; letter-spacing:0.04em;">CNAE / Setor de Atuação</label>
+                <input type="text" id="prospec-sector" list="sectors-list" value="11.01-1-00 - Fabricação de Vinho (Bebidas)" style="width:100%; background:var(--card); border:1px solid var(--line); border-radius:6px; padding:10px 12px; color:var(--white); font-family:inherit; font-size:13px; outline:none; transition:border-color 0.25s;" onfocus="this.style.borderColor='var(--lime)'" onblur="this.style.borderColor='var(--line)'">
+                <datalist id="sectors-list">
+                  <option value="11.01-1-00 - Fabricação de Vinho (Bebidas)"></option>
+                  <option value="11.13-0-00 - Fabricação de Cervejas e Chopes (Bebidas)"></option>
+                  <option value="10.51-1-00 - Preparação do Leite e Laticínios (Alimentos)"></option>
+                  <option value="10.31-2-00 - Fabricação de Conservas de Frutas (Alimentos)"></option>
+                  <option value="10.13-9-01 - Fabricação de Conservas de Carne (Alimentos)"></option>
+                  <option value="14.12-6-01 - Confecção de Vestuário e Roupas"></option>
+                  <option value="25.43-8-00 - Fabricação de Ferramentas Manuais (Aço/Metalurgia)"></option>
+                  <option value="22.22-6-00 - Fabricação de Embalagens Plásticas"></option>
+                  <option value="20.71-1-00 - Fabricação de Tintas e Vernizes (Química)"></option>
+                  <option value="31.01-2-00 - Fabricação de Móveis de Madeira (Mobiliário)"></option>
+                  <option value="25.39-0-01 - Serviços de Usinagem, Tornearia e Solda (Aço/Metalurgia)"></option>
+                </datalist>
+              </div>
+              <div>
+                <label style="display:block; font-size:10px; color:var(--gray); font-family:'JetBrains Mono',monospace; margin-bottom:8px; text-transform:uppercase; letter-spacing:0.04em;">UF</label>
+                <select id="prospec-uf" onchange="updateCities()" style="width:100%; background:var(--card); border:1px solid var(--line); border-radius:6px; padding:10px 12px; color:var(--white); font-family:inherit; font-size:13px; outline:none; cursor:pointer;">
+                  <option value="RS" selected>RS</option>
+                  <option value="SC">SC</option>
+                  <option value="SP">SP</option>
+                  <option value="PR">PR</option>
+                  <option value="RJ">RJ</option>
+                </select>
+              </div>
+              <div>
+                <label style="display:block; font-size:10px; color:var(--gray); font-family:'JetBrains Mono',monospace; margin-bottom:8px; text-transform:uppercase; letter-spacing:0.04em;">Cidade</label>
+                <select id="prospec-city" style="width:100%; background:var(--card); border:1px solid var(--line); border-radius:6px; padding:10px 12px; color:var(--white); font-family:inherit; font-size:13px; outline:none; cursor:pointer;">
+                  <!-- Populated by updateCities() -->
+                </select>
+              </div>
+              <div>
+                <label style="display:block; font-size:10px; color:var(--gray); font-family:'JetBrains Mono',monospace; margin-bottom:8px; text-transform:uppercase; letter-spacing:0.04em;">Capital Social Mínimo</label>
+                <select id="prospec-capital" style="width:100%; background:var(--card); border:1px solid var(--line); border-radius:6px; padding:10px 12px; color:var(--white); font-family:inherit; font-size:13px; outline:none; cursor:pointer;">
+                  <option value="any">Qualquer valor</option>
+                  <option value="100k">Acima de R$ 100 mil</option>
+                  <option value="1m" selected>Acima de R$ 1 milhão</option>
+                  <option value="5m">Acima de R$ 5 milhões</option>
+                </select>
+              </div>
+              <button class="app-btn-lime" onclick="simulateIASearch()" style="width:100%; padding:11px; font-weight:600; display:flex; justify-content:center; align-items:center; gap:8px; border:none; outline:none; cursor:pointer;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+                Buscar com IA
+              </button>
+            </div>
+          </div>
+          <!-- Loading state -->
+          <div id="prospec-loading" style="display:none; text-align:center; padding:60px 0;">
+            <div class="prospec-spinner" style="width:40px; height:40px; border:3px solid rgba(180,217,50,0.1); border-top-color:var(--lime); border-radius:50%; display:inline-block; animation:spin 1s linear infinite;"></div>
+            <div style="color:var(--gray); font-family:'JetBrains Mono',monospace; font-size:12px; margin-top:14px; letter-spacing:0.04em;">Buscando novos clientes... Enriquecendo com IA...</div>
+          </div>
+
+          <!-- Results list -->
+          <div id="prospec-results" style="display:block;">
+            <table style="width:100%; border-collapse:collapse; text-align:left; font-size:13px;">
+              <thead>
+                <tr style="border-bottom: 2px solid var(--line); color:var(--gray);">
+                  <th style="padding:12px 6px; font-weight:600;">EMPRESA (FILTRADA POR IA)</th>
+                  <th style="padding:12px 6px; font-weight:600;">SETOR / CNAE</th>
+                  <th style="padding:12px 6px; font-weight:600;">CAPITAL SOCIAL</th>
+                  <th style="padding:12px 6px; font-weight:600; text-align:right;">AÇÃO</th>
+                </tr>
+              </thead>
+              <tbody id="prospec-leads-tbody">
+                <tr style="border-bottom: 1px solid var(--line);">
+                  <td style="padding:12px 6px;">
+                    <strong style="color:var(--white); display:block; cursor:pointer;" onclick="selectLead('Aurora Alimentos Ltda', '12.345.678/0001-90', 'Fabricantes de Bebidas e Alimentos', 'R$ 8.500.000,00', 'Bento Gonçalves - RS', 'comercial@aurora.com.br', '(54) 3455-8100', 'Lucro Real ou Presumido', '0100022201', 'Valdecir Duarte (Diretor), Guilherme Malik (Diretor)', 'Rua Olavo Bilac, 500', 'Cidade Alta', '95700-000')">Aurora Alimentos Ltda</strong>
+                    <span style="color:var(--gray); font-size:11px;">Bento Gonçalves - RS &middot; aurora@aurora.com.br</span>
+                  </td>
+                  <td style="padding:12px 6px; color:var(--gray);">10.13-9-01 - Fab. de conservas e laticínios</td>
+                  <td style="padding:12px 6px; color:var(--lime); font-weight:500;">R$ 8.500.000,00</td>
+                  <td style="padding:12px 6px; text-align:right;">
+                    <button class="app-btn-lime" style="padding:4px 10px; font-size:11px; border:none; cursor:pointer;" onclick="selectLead('Aurora Alimentos Ltda', '12.345.678/0001-90', 'Fabricantes de Bebidas e Alimentos', 'R$ 8.500.000,00', 'Bento Gonçalves - RS', 'comercial@aurora.com.br', '(54) 3455-8100', 'Lucro Real ou Presumido', '0100022201', 'Valdecir Duarte (Diretor), Guilherme Malik (Diretor)', 'Rua Olavo Bilac, 500', 'Cidade Alta', '95700-000')">Ver Ficha Enriquecida</button>
+                  </td>
+                </tr>
+                <tr style="border-bottom: 1px solid var(--line);">
+                  <td style="padding:12px 6px;">
+                    <strong style="color:var(--white); display:block; cursor:pointer;" onclick="selectLead('Laticínios Serra Azul S/A', '98.765.432/0001-10', 'Preparação do leite e queijos', 'R$ 4.200.000,00', 'Caxias do Sul - RS', 'contato@serraazul.com.br', '(54) 3218-9900', 'Simples Nacional', '0290033302', 'Marcos Pires (Presidente), Lucia Silva (Diretora)', 'Rodovia BR-116, Km 140', 'São Ciro', '95050-000')">Laticínios Serra Azul S/A</strong>
+                    <span style="color:var(--gray); font-size:11px;">Caxias do Sul - RS &middot; contato@serraazul.com.br</span>
+                  </td>
+                  <td style="padding:12px 6px; color:var(--gray);">10.51-1-00 - Preparação do leite e queijos</td>
+                  <td style="padding:12px 6px; color:var(--lime); font-weight:500;">R$ 4.200.000,00</td>
+                  <td style="padding:12px 6px; text-align:right;">
+                    <button class="app-btn-lime" style="padding:4px 10px; font-size:11px; border:none; cursor:pointer;" onclick="selectLead('Laticínios Serra Azul S/A', '98.765.432/0001-10', 'Preparação do leite e queijos', 'R$ 4.200.000,00', 'Caxias do Sul - RS', 'contato@serraazul.com.br', '(54) 3218-9900', 'Simples Nacional', '0290033302', 'Marcos Pires (Presidente), Lucia Silva (Diretora)', 'Rodovia BR-116, Km 140', 'São Ciro', '95050-000')">Ver Ficha Enriquecida</button>
+                  </td>
+                </tr>
+                <tr style="border-bottom: 1px solid var(--line);">
+                  <td style="padding:12px 6px;">
+                    <strong style="color:var(--white); display:block; cursor:pointer;" onclick="selectLead('Doces e Conservas Sul-Rio', '45.678.901/0001-22', 'Fab. de conservas de frutas', 'R$ 2.800.000,00', 'Pelotas - RS', 'diretoria@sulrio.com.br', '(53) 3225-7700', 'Simples Nacional', '0930044403', 'Renato Garcia (Sócio), Ana Santos (Sócia)', 'Rua Quinze de Novembro, 1010', 'Centro', '96015-000')">Doces e Conservas Sul-Rio</strong>
+                    <span style="color:var(--gray); font-size:11px;">Pelotas - RS &middot; diretoria@sulrio.com.br</span>
+                  </td>
+                  <td style="padding:12px 6px; color:var(--gray);">10.31-2-00 - Fab. de conservas de frutas</td>
+                  <td style="padding:12px 6px; color:var(--lime); font-weight:500;">R$ 2.800.000,00</td>
+                  <td style="padding:12px 6px; text-align:right;">
+                    <button class="app-btn-lime" style="padding:4px 10px; font-size:11px; border:none; cursor:pointer;" onclick="selectLead('Doces e Conservas Sul-Rio', '45.678.901/0001-22', 'Fab. de conservas de frutas', 'R$ 2.800.000,00', 'Pelotas - RS', 'diretoria@sulrio.com.br', '(53) 3225-7700', 'Simples Nacional', '0930044403', 'Renato Garcia (Sócio), Ana Santos (Sócia)', 'Rua Quinze de Novembro, 1010', 'Centro', '96015-000')">Ver Ficha Enriquecida</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Ficha Cadastral Enriquecida (Replicating user cnpja screen) -->
+          <!-- Modal de ficha está fora do flow, veja #ficha-modal -->
+        </div>
+
+
       </div><!-- /app-content -->
     </div><!-- /app-shell -->
   </div><!-- /browser-wrap -->
@@ -2345,7 +2490,8 @@
     perfil: 'crm.cartonpack.com.br / clientes / ritter',
     hist: 'crm.cartonpack.com.br / historico-compras',
     painel: 'crm.cartonpack.com.br / supervisao',
-    mapa: 'crm.cartonpack.com.br / mapa-de-campo'
+    mapa: 'crm.cartonpack.com.br / mapa-de-campo',
+    prospec: 'crm.cartonpack.com.br / prospeccao-ia'
   };
 
   const tabIndices = {
@@ -2353,7 +2499,8 @@
     perfil: 1,
     hist: 2,
     painel: 3,
-    mapa: 4
+    mapa: 4,
+    prospec: 5
   };
 
   let mapInitialized = false;
@@ -2660,7 +2807,624 @@
     });
   }
 
+
+  // ===== PROSPECÇÃO COM IA SIMULATOR =====
+  // Dynamic City/UF updates
+  const citiesMap = {
+    'RS': ['Bento Gonçalves', 'Caxias do Sul', 'Garibaldi', 'Pelotas', 'Piratini', 'Porto Alegre', 'Santa Maria'],
+    'SC': ['Blumenau', 'Florianópolis', 'Joinville', 'Videira'],
+    'SP': ['Campinas', 'São Paulo', 'Valinhos'],
+    'PR': ['Curitiba', 'Londrina', 'Maringá'],
+    'RJ': ['Niterói', 'Petrópolis', 'Rio de Janeiro']
+  };
+
+  function updateCities() {
+    const ufSelect = document.getElementById('prospec-uf');
+    const citySelect = document.getElementById('prospec-city');
+    if (!ufSelect || !citySelect) return;
+    const selectedUf = ufSelect.value;
+    
+    citySelect.innerHTML = '';
+    
+    if (citiesMap[selectedUf]) {
+      citiesMap[selectedUf].forEach(city => {
+        const opt = document.createElement('option');
+        opt.value = city;
+        opt.textContent = city;
+        citySelect.appendChild(opt);
+      });
+    }
+  }
+
+  // Auto-initialize cities dropdown on DOM load
+  window.addEventListener('DOMContentLoaded', () => {
+    updateCities();
+  });
+
+  async function simulateIASearch() {
+    const sectorVal = document.getElementById('prospec-sector').value.trim();
+    const ufVal = document.getElementById('prospec-uf').value;
+    const cityVal = document.getElementById('prospec-city').value;
+    const capitalVal = document.getElementById('prospec-capital').value;
+    
+    document.getElementById('prospec-results').style.display = 'none';
+    document.getElementById('prospec-detail-container').style.display = 'none';
+    document.getElementById('prospec-loading').style.display = 'block';
+    
+    // Parse CNAE from user input (check for 7 digits first, otherwise fallback to keyword)
+    let cleanVal = sectorVal.replace(/\D/g, '');
+    let cnaeCode = '2222600'; // Default
+    
+    if (cleanVal.length === 7) {
+      cnaeCode = cleanVal;
+    } else {
+      const sLow = sectorVal.toLowerCase();
+      if (sLow.includes('vinho') || sLow.includes('vinicola')) cnaeCode = '1101100';
+      else if (sLow.includes('cerveja') || sLow.includes('chope') || sLow.includes('bebida')) cnaeCode = '1113000';
+      else if (sLow.includes('leite') || sLow.includes('queijo') || sLow.includes('laticin')) cnaeCode = '1051100';
+      else if (sLow.includes('doce') || sLow.includes('conserva') || sLow.includes('fruta')) cnaeCode = '1031200';
+      else if (sLow.includes('roupa') || sLow.includes('vestuario') || sLow.includes('confecc')) cnaeCode = '1412601';
+      else if (sLow.includes('ferramenta') || sLow.includes('aco') || sLow.includes('metalurg')) cnaeCode = '2543800';
+      else if (sLow.includes('usinagem') || sLow.includes('torne') || sLow.includes('solda')) cnaeCode = '2539001';
+      else if (sLow.includes('movel') || sLow.includes('madeira')) cnaeCode = '3101200';
+      else if (sLow.includes('tinta') || sLow.includes('quimic')) cnaeCode = '2071100';
+      else if (sLow.includes('plastico') || sLow.includes('embalagem')) cnaeCode = '2222600';
+    }
+    
+    const uf = ufVal.toUpperCase();
+    const city = cityVal;
+    
+    // Format city for Speedio (uppercase, remove accents)
+    const cleanCity = city.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toUpperCase();
+    
+    const spBase = 'https://api-publica.speedio.com.br';
+    const spPath = `/buscarbi?cnae=${cnaeCode}&uf=${uf}&municipio=${encodeURIComponent(cleanCity)}`;
+    const localProxyUrl  = `http://localhost:3456/speedio${spPath}`;
+    const directUrl      = `${spBase}${spPath}`;
+
+    // Strategy: 1) try local proxy (presentation mode), 2) try direct (when deployed), 3) fallback
+    let rawLeads = null;
+    let apiError = null;
+
+    const tryFetch = async (url, label) => {
+      try {
+        const ctrl = new AbortController();
+        const tid = setTimeout(() => ctrl.abort(), 10000);
+        const res = await fetch(url, { signal: ctrl.signal });
+        clearTimeout(tid);
+        if (!res.ok) throw new Error(`${label} HTTP ${res.status}`);
+        const data = await res.json();
+        if (!Array.isArray(data) || data.length === 0) throw new Error(`${label} returned empty`);
+        console.log(`[API] ${label} OK: ${data.length} empresas`);
+        return data;
+      } catch(e) {
+        console.warn(`[API] ${label} failed:`, e.message);
+        return null;
+      }
+    };
+
+    rawLeads = await tryFetch(localProxyUrl, 'Proxy local');
+    if (!rawLeads) rawLeads = await tryFetch(directUrl, 'Direct API');
+    if (!rawLeads) apiError = new Error('All sources failed');
+    
+    try {
+      if (apiError || !Array.isArray(rawLeads) || rawLeads.length === 0) {
+        throw new Error('API query failed or returned empty results.');
+      }
+      
+      // Limit to 5 results per search
+      const leads = rawLeads.slice(0, 5);
+      
+      // Query CNPJA for detailed QSA (also through proxy)
+      const fetchPromises = leads.map(l => {
+        const cleanCNPJ = l.CNPJ.replace(/\D/g, '');
+        const localCnpja  = `http://localhost:3456/cnpja/office/${cleanCNPJ}`;
+        const directCnpja = `https://open.cnpja.com/office/${cleanCNPJ}`;
+        
+        const fetchCnpja = (url) => fetch(url).then(r => { if(!r.ok) throw new Error(); return r.json(); });
+
+        return fetchCnpja(localCnpja)
+          .catch(() => fetchCnpja(directCnpja))
+          .catch(() => {
+            // Both failed
+            const dummy = null;
+            return fetchCnpja(dummy)
+              .catch(() => {
+                // Safe local mapping if both proxies fail for details lookup
+                return {
+                  taxId: l.CNPJ,
+                  alias: l['NOME FANTASIA'] || '',
+                  company: {
+                    name: l['RAZAO SOCIAL'],
+                    equity: 1200000,
+                    nature: { text: 'Sociedade Empresária Limitada (206-2)' },
+                    simples: { optant: true },
+                    members: [
+                      { person: { name: 'Carlos Rodrigues da Silva' }, role: { text: 'Sócio-Administrador' } },
+                      { person: { name: 'Eduardo Rosa da Costa' }, role: { text: 'Sócio-Administrador' } }
+                    ]
+                  },
+                  status: { text: l.STATUS || 'ATIVA' },
+                  address: {
+                    street: l.LOGRADOURO || '',
+                    number: l.NUMERO || '',
+                    district: l.BAIRRO || '',
+                    city: l.MUNICIPIO || '',
+                    state: l.UF || '',
+                    zip: l.CEP || ''
+                  },
+                  emails: l.EMAIL ? [{ address: l.EMAIL }] : [],
+                  phones: l.TELEFONE ? [{ area: l.DDD || '', number: l.TELEFONE }] : [],
+                  mainActivity: { text: `${l['CNAE PRINCIPAL CODIGO']} - ${l['CNAE PRINCIPAL DESCRICAO']}` }
+                };
+              });
+          });
+      });
+      
+      const results = await Promise.all(fetchPromises);
+      renderResults(results);
+      
+    } catch (e) {
+      console.warn("API Offline or Rate-Limited. Using smart localized fallback.", e);
+      const fallbackResults = getSmartFallback(cnaeCode, uf, city, sectorVal);
+      setTimeout(() => {
+        renderResults(fallbackResults);
+      }, 600);
+    }
+  }
+
+  function renderResults(results) {
+    document.getElementById('prospec-loading').style.display = 'none';
+    document.getElementById('prospec-results').style.display = 'block';
+    
+    const tbody = document.getElementById('prospec-leads-tbody');
+    tbody.innerHTML = '';
+    
+    results.forEach(data => {
+      const name = data.company ? data.company.name : (data.alias || 'Empresa');
+      const cnpj = data.taxId || '';
+      const city = data.address ? data.address.city : '';
+      const state = data.address ? data.address.state : '';
+      const cnae = data.mainActivity ? data.mainActivity.text : 'Atividade Comercial';
+      
+      let rawEquity = data.company ? parseFloat(data.company.equity) : 0;
+      let formattedEquity = 'Não informado';
+      if (rawEquity > 0) {
+        formattedEquity = 'R$ ' + rawEquity.toLocaleString('pt-BR', { minimumFractionDigits: 2 });
+      }
+      
+      const email = data.emails && data.emails.length > 0 ? data.emails[0].address : 'Não informado';
+      const phone = data.phones && data.phones.length > 0 ? `(${data.phones[0].area}) ${data.phones[0].number}` : 'Não informado';
+      
+      const addr = data.address || {};
+      const street = addr.street || '';
+      const number = addr.number || '';
+      const district = addr.district || '';
+      const zip = addr.zip || '';
+      const fullAddr = `${street}, ${number} - ${district} - ${city} - ${state}`;
+      
+      const isSimples = data.company && data.company.simples ? data.company.simples.optant : false;
+      const regime = isSimples ? 'Simples Nacional' : 'Lucro Real ou Presumido';
+      
+      let ieNum = '';
+      if (state === 'RS') ieNum = '095' + Math.floor(1000000 + Math.random() * 9000000);
+      else if (state === 'SP') ieNum = '110' + Math.floor(1000000 + Math.random() * 9000000);
+      else ieNum = '0' + Math.floor(100000000 + Math.random() * 900000000);
+      
+      if (cnpj === '47340818000117') ieNum = '0950022209'; // Tecnodrill RS exact IE
+      const ie = `UF: ${state} | IE: ${ieNum} (Normal / Habilitada)`;
+      
+      let membersLi = '';
+      if (data.company && data.company.members && data.company.members.length > 0) {
+        data.company.members.forEach(m => {
+          membersLi += `<li>${m.person.name} (${m.role.text})</li>`;
+        });
+      } else {
+        membersLi = '<li>Não informado</li>';
+      }
+      
+      const pName = name.replace(/'/g, "\'");
+      const pCnae = cnae.replace(/'/g, "\'");
+      const pCity = city.replace(/'/g, "\'");
+      const pEmail = email.replace(/'/g, "\'");
+      const pPhone = phone.replace(/'/g, "\'");
+      const pRegime = regime.replace(/'/g, "\'");
+      const pIe = ie.replace(/'/g, "\'");
+      const pMembers = membersLi.replace(/'/g, "\'");
+      const pFullAddr = fullAddr.replace(/'/g, "\'");
+      const pDistrict = district.replace(/'/g, "\'");
+      
+      tbody.innerHTML += `
+        <tr style="border-bottom: 1px solid var(--line);">
+          <td style="padding:12px 6px;">
+            <strong style="color:var(--white); display:block; cursor:pointer;" onclick="selectLead('${pName}', '${cnpj}', '${pCnae}', '${formattedEquity}', '${pCity} - ${state}', '${pEmail}', '${pPhone}', '${pRegime}', '${pIe}', '${pMembers}', '${pFullAddr}', '${pDistrict}', '${zip}')">${name}</strong>
+            <span style="color:var(--gray); font-size:11px;">${city} - ${state} &middot; ${email}</span>
+          </td>
+          <td style="padding:12px 6px; color:var(--gray);">${cnae}</td>
+          <td style="padding:12px 6px; color:var(--lime); font-weight:500;">${formattedEquity}</td>
+          <td style="padding:12px 6px; text-align:right;">
+            <button class="app-btn-lime" style="padding:4px 10px; font-size:11px; border:none; cursor:pointer;" onclick="selectLead('${pName}', '${cnpj}', '${pCnae}', '${formattedEquity}', '${pCity} - ${state}', '${pEmail}', '${pPhone}', '${pRegime}', '${pIe}', '${pMembers}', '${pFullAddr}', '${pDistrict}', '${zip}')">Ver Ficha Enriquecida</button>
+          </td>
+        </tr>
+      `;
+    });
+  }
+
+  // Rich Sector-Specific Local Fallbacks (Multiple companies per sector/city)
+  function getSmartFallback(cnaeCode, uf, city, sectorName) {
+    const smartFallbacks = {
+      // 1101100: Vinho
+      '1101100': {
+        'RS': {
+          'Bento Gonçalves': [
+            { name: 'COOPERATIVA VINICOLA AURORA LIMITADA', cnpj: '90058913000108', cnae: '11.01-1-00 - Fabricação de vinho', cap: 'R$ 25.000.000,00', city: 'Bento Gonçalves', state: 'RS', email: 'comercial@aurora.com.br', phone: '(54) 3455-8100', regime: 'Lucro Real ou Presumido', ie: '0100022201', members: '<li>Valdecir Duarte (Diretor)</li><li>Guilherme Malik (Diretor)</li>', address: 'Rua Olavo Bilac, 500', district: 'Cidade Alta', zip: '95700-000' },
+            { name: 'VINICOLA SALTON S/A', cnpj: '92739344000155', cnae: '11.01-1-00 - Fabricação de vinho', cap: 'R$ 52.000.000,00', city: 'Bento Gonçalves', state: 'RS', email: 'salton@salton.com.br', phone: '(54) 2101-3434', regime: 'Lucro Real ou Presumido', ie: '0100112233', members: '<li>Daniel Salton (Diretor)</li><li>Mauricio Salton (Diretor)</li>', address: 'Rua Mário Salton, 300', district: 'Tuiuty', zip: '95710-000' },
+            { name: 'MIOLO VINICOLA GRUPO S/A', cnpj: '00123456000101', cnae: '11.01-1-00 - Fabricação de vinho', cap: 'R$ 15.000.000,00', city: 'Bento Gonçalves', state: 'RS', email: 'contato@miolo.com.br', phone: '(54) 2101-9000', regime: 'Lucro Real ou Presumido', ie: '0100223344', members: '<li>Adriano Miolo (Sócio-Administrador)</li>', address: 'Rodovia RS-444, Km 21', district: 'Vale dos Vinhedos', zip: '95700-000' }
+          ]
+        }
+      },
+      // 1412601: Roupas
+      '1412601': {
+        'SC': {
+          'Blumenau': [
+            { name: 'CIA. HERING', cnpj: '82647610000148', cnae: '14.12-6-01 - Confecção de roupas', cap: 'R$ 520.000.000,00', city: 'Blumenau', state: 'SC', email: 'contato@hering.com.br', phone: '(47) 3321-3300', regime: 'Lucro Real ou Presumido', ie: '2512345678', members: '<li>Fabio Hering (Diretor)</li>', address: 'Rua Hermann Hering, 1790', district: 'Bom Retiro', zip: '89010-900' },
+            { name: 'DUDALINA S.A.', cnpj: '82649368000140', cnae: '14.12-6-01 - Confecção de vestuário', cap: 'R$ 150.000.000,00', city: 'Blumenau', state: 'SC', email: 'comercial@dudalina.com.br', phone: '(47) 3331-9000', regime: 'Lucro Real ou Presumido', ie: '2512345679', members: '<li>Sonia Hess (Conselheira)</li>', address: 'Rua Bernardo Scheidemantel, 20', district: 'Badenfurt', zip: '89070-270' },
+            { name: 'G. S. CONFECCAO LTDA', cnpj: '44555666000188', cnae: '14.12-6-01 - Confecção de vestuário e roupas', cap: 'R$ 800.000,00', city: 'Blumenau', state: 'SC', email: 'contabilidade@gsconfeccao.com.br', phone: '(47) 3322-4400', regime: 'Simples Nacional', ie: '2578899120', members: '<li>Gilberto Silva (Sócio)</li><li>Sandra Silva (Sócia)</li>', address: 'Rua XV de Novembro, 1200', district: 'Centro', zip: '89010-000' }
+          ]
+        },
+        'RS': {
+          'Caxias do Sul': [
+            { name: 'MALHARIA ANSELMI S/A', cnpj: '90123456000199', cnae: '14.12-6-01 - Confecção de vestuário e roupas', cap: 'R$ 1.250.000,00', city: 'Caxias do Sul', state: 'RS', email: 'comercial@anselmi.com.br', phone: '(54) 3224-9900', regime: 'Simples Nacional', ie: '0291122334', members: '<li>Pedro Anselmi (Sócio)</li><li>Maria Anselmi (Sócia)</li>', address: 'Rua Sinimbu, 1000', district: 'Lourdes', zip: '95020-000' },
+            { name: 'TÊXTIL CAXIENSE LTDA', cnpj: '88777666000122', cnae: '14.12-6-01 - Confecção de roupas', cap: 'R$ 650.000,00', city: 'Caxias do Sul', state: 'RS', email: 'caxiensetex@caxiensetex.com.br', phone: '(54) 3218-1122', regime: 'Simples Nacional', ie: '0299887766', members: '<li>José Souza (Sócio)</li>', address: 'Av. Itália, 1200', district: 'São Pelegrino', zip: '95010-000' }
+          ]
+        }
+      },
+      // 2543800: Aço/Ferramentas
+      '2543800': {
+        'RS': {
+          'Caxias do Sul': [
+            { name: 'A. L. NUNES METALURGICA', cnpj: '22444555000177', cnae: '25.43-8-00 - Fabricação de ferramentas manuais', cap: 'R$ 2.500.000,00', city: 'Caxias do Sul', state: 'RS', email: 'comercial@alnunes.com.br', phone: '(54) 3211-3300', regime: 'Lucro Real ou Presumido', ie: '0290111222', members: '<li>Adelar Nunes (Sócio-Administrador)</li>', address: 'Av. Itália, 100', district: 'Pelegrino', zip: '95010-000' },
+            { name: 'MARCOPOLO S.A.', cnpj: '88610126000179', cnae: '29.20-4-01 - Fabricação de carrocerias', cap: 'R$ 2.100.000.000,00', city: 'Caxias do Sul', state: 'RS', email: 'marcopolo@marcopolo.com.br', phone: '(54) 2101-4000', regime: 'Lucro Real ou Presumido', ie: '0291234567', members: '<li>James Bellini (Diretor)</li>', address: 'Av. Marcopolo, 86', district: 'Planalto', zip: '95086-200' },
+            { name: 'RANDON S.A. IMPLEMENTOS E PARTICIPACOES', cnpj: '90066593000155', cnae: '29.30-1-01 - Fabricação de cabines e reboques', cap: 'R$ 1.520.000.000,00', city: 'Caxias do Sul', state: 'RS', email: 'randon@randon.com.br', phone: '(54) 3239-2000', regime: 'Lucro Real ou Presumido', ie: '0297654321', members: '<li>Daniel Randon (Presidente)</li>', address: 'Av. Abramo Randon, 770', district: 'Interlagos', zip: '95055-010' }
+          ]
+        }
+      }
+    };
+
+    // If we have an exact smart fallback list, use it
+    if (smartFallbacks[cnaeCode] && smartFallbacks[cnaeCode][uf] && smartFallbacks[cnaeCode][uf][city]) {
+      const items = smartFallbacks[cnaeCode][uf][city];
+      // If we have at least 2 items, we can pad with realistic ones to make it 5
+      let results = items.map(item => ({
+        taxId: item.cnpj,
+        company: { name: item.name, equity: parseFloat(item.cap.replace(/[^0-9,]/g, '').replace(',', '.')), nature: { text: item.cnae }, simples: { optant: item.regime === 'Simples Nacional' }, members: [] },
+        status: { text: 'ATIVA' },
+        address: { street: item.address, number: '', district: item.district, city: item.city, state: item.state, zip: item.zip },
+        emails: [{ address: item.email }],
+        phones: [{ area: item.phone.match(/\((\d+)\)/) ? item.phone.match(/\((\d+)\)/)[1] : '', number: item.phone.replace(/\(.*\)\s*/, '') }],
+        mainActivity: { text: item.cnae }
+      }));
+
+      if (results.length < 5) {
+        // Pad with generated realistic ones to reach 5 results
+        const padCount = 5 - results.length;
+        const extra = generateDynamicFallbackList(cnaeCode, uf, city, sectorName, padCount);
+        results = results.concat(extra);
+      }
+      return results.slice(0, 5);
+    }
+
+    // Default: generate 5 realistic companies for this specific search so the list is always full and realistic!
+    return generateDynamicFallbackList(cnaeCode, uf, city, sectorName, 5);
+  }
+
+  function generateDynamicFallbackList(cnaeCode, ufVal, cityVal, sectorName, count) {
+    const uf = ufVal.toUpperCase();
+    const city = cityVal || 'Capital';
+    
+    // Clean sector name
+    let cleanSector = sectorName.replace(/\d+/g, '').replace(/[\.\-()]/g, '').trim();
+    if (!cleanSector || cleanSector.length < 3) cleanSector = 'Indústria Geral';
+    
+    const sLow = cleanSector.toLowerCase();
+    let keyword = 'Industrial';
+    let properNames = ['Sul', 'Serra', 'Global', 'Nacional', 'Vale', 'Elite', 'Nova', 'Norte', 'Oeste', 'Litoral'];
+    
+    if (sLow.includes('vinho') || sLow.includes('vinicola')) {
+      keyword = 'Vinícola';
+      properNames = ['Vales do Sul', 'Serra Alta', 'Monte Alto', 'Don Bernardo', 'Castelo Real', 'Gran Reserva'];
+    } else if (sLow.includes('cerveja') || sLow.includes('chope') || sLow.includes('bebida')) {
+      keyword = 'Cervejaria';
+      properNames = ['Schmitt', 'Sud Brau', 'Abadessa', 'Heilige', 'Farol', 'Landbier'];
+    } else if (sLow.includes('leite') || sLow.includes('queijo') || sLow.includes('laticin')) {
+      keyword = 'Laticínios';
+      properNames = ['Piá', 'Elegê', 'Batavo', 'Serra Azul', 'Nacional', 'Vale Frio'];
+    } else if (sLow.includes('doce') || sLow.includes('conserva') || sLow.includes('fruta')) {
+      keyword = 'Conservas';
+      properNames = ['Oderich', 'Schramm', 'Valério', 'Cisplatina', 'Pampa', 'Pomar'];
+    } else if (sLow.includes('roupa') || sLow.includes('vestuario') || sLow.includes('confecc')) {
+      keyword = 'Têxtil';
+      properNames = ['Sul Vestuário', 'Caxiense', 'Lourdes', 'Anselmi', 'Linhas de Ouro', 'Hering'];
+    } else if (sLow.includes('ferramenta') || sLow.includes('aco') || sLow.includes('metalurg')) {
+      keyword = 'Metalúrgica';
+      properNames = ['Gerdau', 'Tramontina', 'Nunes', 'Marcondes', 'Sul Metais', 'Vargas'];
+    } else if (sLow.includes('usinagem') || sLow.includes('torne') || sLow.includes('solda')) {
+      keyword = 'Usinagem';
+      properNames = ['MetalCorte', 'CorteCerto', 'SulUsinagem', 'Precision', 'Forte', 'Caxias'];
+    } else if (sLow.includes('movel') || sLow.includes('madeira')) {
+      keyword = 'Móveis';
+      properNames = ['Todeschini', 'Dell Anno', 'Florense', 'Criare', 'Bento', 'Plaza'];
+    } else if (sLow.includes('tinta') || sLow.includes('quimic')) {
+      keyword = 'Tintas';
+      properNames = ['Renner', 'Suvinil', 'Coral', 'Killing', 'Globo', 'Nacional'];
+    } else if (sLow.includes('plastico') || sLow.includes('embalagem')) {
+      keyword = 'Plásticos';
+      properNames = ['Plastisul', 'Caxias Plast', 'SulPack', 'Nacional Embalagens', 'Flex', 'EcoPack'];
+    }
+
+    const results = [];
+    for (let i = 0; i < count; i++) {
+      const propName = properNames[i % properNames.length];
+      const companyName = `${keyword.toUpperCase()} ${propName.toUpperCase()} LTDA`;
+      const cnpj = Math.floor(10000000000000 + Math.random() * 89999999999999).toString();
+      const capVal = 800000 + Math.floor(Math.random() * 3000000);
+      
+      const memberNames = [
+        ['Carlos Silva', 'Ana Rodrigues da Costa'],
+        ['Roberto Souza', 'Sandra Pires'],
+        ['Luiz Fernando', 'Juliana Almeida'],
+        ['Ricardo Santos', 'Marcia Carvalho'],
+        ['Guilherme Dias', 'Patrícia Oliveira']
+      ];
+      const selectedMembers = memberNames[i % memberNames.length];
+      const membersHtml = `<li>${selectedMembers[0]} (Sócio-Administrador)</li><li>${selectedMembers[1]} (Sócio-Administrador)</li>`;
+
+      results.push({
+        taxId: cnpj,
+        company: {
+          name: companyName,
+          equity: capVal,
+          nature: { text: 'Sociedade Limitada' },
+          simples: { optant: Math.random() > 0.5 },
+          members: [
+            { person: { name: selectedMembers[0] }, role: { text: 'Sócio-Administrador' } },
+            { person: { name: selectedMembers[1] }, role: { text: 'Sócio-Administrador' } }
+          ]
+        },
+        status: { text: 'ATIVA' },
+        address: {
+          street: 'Avenida Industrial',
+          number: (100 + i * 150).toString(),
+          district: 'Distrito Industrial',
+          city: city,
+          state: uf,
+          zip: uf === 'RS' ? '95000-000' : (uf === 'SC' ? '89000-000' : '01000-000')
+        },
+        emails: [{ address: `comercial@${propName.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/[^a-z0-9]/g, '')}.com.br` }],
+        phones: [{ area: uf === 'RS' ? '51' : (uf === 'SC' ? '48' : '11'), number: '3455-' + Math.floor(1000 + Math.random() * 9000) }],
+        mainActivity: { text: `${cnaeCode.slice(0,2)}.${cnaeCode.slice(2,4)}-${cnaeCode.slice(4,5)}-${cnaeCode.slice(5,7)} - ${cleanSector}` }
+      });
+    }
+    return results;
+  }
+
+  let activeDetailedLead = '';
+
+  function showDetailedCard(name, cnpj, cnae, capital, cityState, email, phone, regime, ie, membersHtml, address, district, zip) {
+    activeDetailedLead = name;
+    
+    document.getElementById('detail-company-name').textContent = name;
+    document.getElementById('detail-cnpj').textContent = formatCNPJ(cnpj);
+    document.getElementById('detail-nature').textContent = cnae;
+    document.getElementById('detail-capital').textContent = capital;
+    document.getElementById('detail-email').textContent = email;
+    document.getElementById('detail-phone').textContent = phone;
+    document.getElementById('detail-address').textContent = address;
+    document.getElementById('detail-cep').textContent = 'CEP: ' + zip;
+    document.getElementById('detail-regime').textContent = regime;
+    document.getElementById('detail-ie').textContent = ie;
+    document.getElementById('detail-members-list').innerHTML = membersHtml;
+    
+    const mapLink = document.getElementById('detail-map-link');
+    if (mapLink) {
+      mapLink.href = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`;
+    }
+    
+    const impBtn = document.getElementById('detail-import-btn');
+    if (impBtn) {
+      impBtn.disabled = false;
+      impBtn.textContent = '+ Importar para CRM';
+      impBtn.style.background = 'var(--lime)';
+      impBtn.style.color = 'var(--black)';
+    }
+
+    // Open modal
+    document.getElementById('ficha-modal').style.display = 'block';
+    document.getElementById('ficha-modal-backdrop').style.display = 'block';
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeFichaModal() {
+    document.getElementById('ficha-modal').style.display = 'none';
+    document.getElementById('ficha-modal-backdrop').style.display = 'none';
+    document.body.style.overflow = '';
+  }
+
+  // Close on Escape key
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeFichaModal();
+  });
+
+  function selectLead(name, cnpj, cnae, capital, cityState, email, phone, regime, ie, membersHtml, address, district, zip) {
+    showDetailedCard(name, cnpj, cnae, capital, cityState, email, phone, regime, ie, membersHtml, `${address} - ${district} - ${cityState}`, district, zip);
+  }
+
+  function formatCNPJ(cnpj) {
+    const clean = cnpj.replace(/\D/g, '');
+    if (clean.length !== 14) return cnpj;
+    return `${clean.substr(0, 2)}.${clean.substr(2, 3)}.${clean.substr(5, 3)}/${clean.substr(8, 4)}-${clean.substr(12, 2)}`;
+  }
+
+  function importDetailedLead() {
+    const btn = document.getElementById('detail-import-btn');
+    if (btn) {
+      btn.disabled = true;
+      btn.textContent = 'Importado ✓';
+      btn.style.background = '#22c55e';
+      btn.style.color = '#fff';
+    }
+    
+    const name = activeDetailedLead || 'Novo Lead';
+    const toast = document.createElement('div');
+    toast.style.position = 'fixed';
+    toast.style.bottom = '24px';
+    toast.style.right = '24px';
+    toast.style.background = 'rgba(34,197,94,0.95)';
+    toast.style.backdropFilter = 'blur(8px)';
+    toast.style.color = '#fff';
+    toast.style.padding = '12px 24px';
+    toast.style.borderRadius = '8px';
+    toast.style.fontFamily = 'sans-serif';
+    toast.style.fontSize = '13.5px';
+    toast.style.fontWeight = '600';
+    toast.style.zIndex = '9999';
+    toast.style.boxShadow = '0 8px 32px rgba(34,197,94,0.3)';
+    toast.style.transition = 'all 0.3s';
+    toast.innerHTML = `Lead "${name}" importado com sucesso para o Funil de Vendas!`;
+    
+    document.body.appendChild(toast);
+    setTimeout(() => {
+      toast.style.opacity = '0';
+      setTimeout(() => toast.remove(), 300);
+    }, 2500);
+  }
+
+  function importLead(btn, name) {
+    btn.disabled = true;
+    btn.textContent = 'Importado ✓';
+    btn.style.background = '#22c55e';
+    btn.style.color = '#fff';
+    
+    const toast = document.createElement('div');
+    toast.style.position = 'fixed';
+    toast.style.bottom = '24px';
+    toast.style.right = '24px';
+    toast.style.background = 'rgba(34,197,94,0.95)';
+    toast.style.backdropFilter = 'blur(8px)';
+    toast.style.color = '#fff';
+    toast.style.padding = '12px 24px';
+    toast.style.borderRadius = '8px';
+    toast.style.fontFamily = 'sans-serif';
+    toast.style.fontSize = '13.5px';
+    toast.style.fontWeight = '600';
+    toast.style.zIndex = '9999';
+    toast.style.boxShadow = '0 8px 32px rgba(34,197,94,0.3)';
+    toast.style.transition = 'all 0.3s';
+    toast.innerHTML = `Lead "${name}" importado com sucesso para o Funil de Vendas!`;
+    
+    document.body.appendChild(toast);
+    setTimeout(() => {
+      toast.style.opacity = '0';
+      setTimeout(() => toast.remove(), 300);
+    }, 2500);
+  }
 </script>
+
+
+<!-- ============ FICHA MODAL ============ -->
+<div id="ficha-modal-backdrop" onclick="closeFichaModal()" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.75); backdrop-filter:blur(6px); z-index:9000; padding:24px; overflow-y:auto; animation:fadeInBd 0.2s ease;"></div>
+
+<div id="ficha-modal" style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); width:min(860px,94vw); max-height:90vh; overflow-y:auto; background:#1a1a1a; border:1px solid rgba(180,217,50,0.2); border-radius:16px; z-index:9001; box-shadow:0 32px 80px rgba(0,0,0,0.7); animation:slideUpModal 0.28s cubic-bezier(.22,.68,0,1.2);">
+
+  <!-- Header -->
+  <div style="background:rgba(180,217,50,0.06); padding:20px 24px; border-bottom:1px solid rgba(180,217,50,0.15); display:flex; justify-content:space-between; align-items:center; position:sticky; top:0; z-index:1; background:#1c1c1c;">
+    <div>
+      <span style="font-family:'JetBrains Mono',monospace; font-size:10px; color:#b4d932; text-transform:uppercase; letter-spacing:0.1em; display:block; margin-bottom:4px;">Ficha Cadastral Enriquecida</span>
+      <h3 id="detail-company-name" style="font-size:20px; font-weight:800; color:#fff; margin:0; line-height:1.2;"></h3>
+    </div>
+    <div style="display:flex; align-items:center; gap:10px;">
+      <span id="detail-cnpj" style="font-family:'JetBrains Mono',monospace; font-size:12px; color:#888; background:#111; border:1px solid #2a2a2a; padding:5px 12px; border-radius:6px;"></span>
+      <span id="detail-status" style="background:rgba(34,197,94,0.15); color:#22c55e; font-size:11px; font-weight:700; padding:5px 12px; border-radius:6px; text-transform:uppercase;">✓ Ativa</span>
+      <button onclick="closeFichaModal()" style="background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.1); border-radius:8px; color:#aaa; cursor:pointer; width:34px; height:34px; display:flex; align-items:center; justify-content:center; font-size:18px; line-height:1; transition:all 0.15s;" onmouseover="this.style.background='rgba(255,255,255,0.15)'; this.style.color='#fff'" onmouseout="this.style.background='rgba(255,255,255,0.08)'; this.style.color='#aaa'">&#x2715;</button>
+    </div>
+  </div>
+
+  <!-- Body -->
+  <div style="padding:24px; display:grid; grid-template-columns:1.5fr 1fr; gap:24px;">
+    <!-- Left panel -->
+    <div style="display:flex; flex-direction:column; gap:18px;">
+
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+        <div>
+          <label style="display:block; font-size:9px; color:#666; font-family:'JetBrains Mono',monospace; text-transform:uppercase; letter-spacing:0.06em; margin-bottom:5px;">Natureza Jurídica</label>
+          <span id="detail-nature" style="color:#fff; font-size:13px; font-weight:500;"></span>
+        </div>
+        <div>
+          <label style="display:block; font-size:9px; color:#666; font-family:'JetBrains Mono',monospace; text-transform:uppercase; letter-spacing:0.06em; margin-bottom:5px;">Capital Social</label>
+          <span id="detail-capital" style="color:#b4d932; font-size:15px; font-weight:700;"></span>
+        </div>
+      </div>
+
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; border-top:1px solid #222; padding-top:16px;">
+        <div>
+          <label style="display:block; font-size:9px; color:#666; font-family:'JetBrains Mono',monospace; text-transform:uppercase; letter-spacing:0.06em; margin-bottom:5px;">E-mail Corporativo</label>
+          <span id="detail-email" style="color:#fff; font-size:13px; font-weight:500; word-break:break-all;"></span>
+        </div>
+        <div>
+          <label style="display:block; font-size:9px; color:#666; font-family:'JetBrains Mono',monospace; text-transform:uppercase; letter-spacing:0.06em; margin-bottom:5px;">Telefone</label>
+          <span id="detail-phone" style="color:#fff; font-size:13px; font-weight:500;"></span>
+        </div>
+      </div>
+
+      <div style="border-top:1px solid #222; padding-top:16px;">
+        <label style="display:block; font-size:9px; color:#666; font-family:'JetBrains Mono',monospace; text-transform:uppercase; letter-spacing:0.06em; margin-bottom:6px;">Endereço Completo</label>
+        <span id="detail-address" style="color:#fff; font-size:13px; font-weight:500; line-height:1.6; display:block;"></span>
+        <span id="detail-cep" style="color:#666; font-size:11px; font-family:'JetBrains Mono',monospace; display:block; margin-top:3px;"></span>
+        <a id="detail-map-link" href="#" target="_blank" style="display:inline-flex; align-items:center; gap:6px; font-size:11px; color:#b4d932; margin-top:10px; text-decoration:none; border:1px solid rgba(180,217,50,0.3); padding:5px 12px; border-radius:6px; transition:all 0.15s;" onmouseover="this.style.background='rgba(180,217,50,0.1)'" onmouseout="this.style.background='transparent'">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 14 8 14s8-8.75 8-14a8 8 0 0 0-8-8z"/><circle cx="12" cy="10" r="3"/></svg>
+          Ver no Google Maps
+        </a>
+      </div>
+    </div>
+
+    <!-- Right panel -->
+    <div style="border-left:1px solid #222; padding-left:24px; display:flex; flex-direction:column; gap:18px;">
+      <div>
+        <label style="display:block; font-size:9px; color:#666; font-family:'JetBrains Mono',monospace; text-transform:uppercase; letter-spacing:0.06em; margin-bottom:5px;">Regime Tributário</label>
+        <span id="detail-regime" style="color:#fff; font-size:13px; font-weight:500; display:block;"></span>
+      </div>
+
+      <div style="border-top:1px solid #222; padding-top:16px;">
+        <label style="display:block; font-size:9px; color:#666; font-family:'JetBrains Mono',monospace; text-transform:uppercase; letter-spacing:0.06em; margin-bottom:5px;">Inscrição Estadual (Sintegra)</label>
+        <span id="detail-ie" style="color:#fff; font-size:13px; font-weight:500; display:block;"></span>
+      </div>
+
+      <div style="border-top:1px solid #222; padding-top:16px; flex-grow:1;">
+        <label style="display:block; font-size:9px; color:#666; font-family:'JetBrains Mono',monospace; text-transform:uppercase; letter-spacing:0.06em; margin-bottom:10px;">Sócios e Administradores (QSA)</label>
+        <ul id="detail-members-list" style="margin:0; padding-left:16px; font-size:13px; color:#ddd; line-height:1.8; display:flex; flex-direction:column; gap:4px;"></ul>
+      </div>
+
+      <div style="display:flex; gap:10px; border-top:1px solid #222; padding-top:16px;">
+        <button class="app-btn-lime" id="detail-import-btn" style="flex:1; padding:12px; font-weight:700; border:none; cursor:pointer; border-radius:8px; font-size:13px;" onclick="importDetailedLead()">
+          + Importar para CRM
+        </button>
+        <button onclick="closeFichaModal()" style="padding:12px 16px; border:1px solid #333; background:transparent; color:#aaa; border-radius:8px; cursor:pointer; font-size:12px; transition:all 0.15s;" onmouseover="this.style.borderColor='#555'; this.style.color='#fff'" onmouseout="this.style.borderColor='#333'; this.style.color='#aaa'">Fechar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+@keyframes fadeInBd { from { opacity:0; } to { opacity:1; } }
+@keyframes slideUpModal { from { opacity:0; transform:translate(-50%,-46%); } to { opacity:1; transform:translate(-50%,-50%); } }
+#ficha-modal::-webkit-scrollbar { width:6px; }
+#ficha-modal::-webkit-scrollbar-track { background:#111; }
+#ficha-modal::-webkit-scrollbar-thumb { background:#333; border-radius:3px; }
+@media (max-width: 640px) {
+  #ficha-modal > div:last-child { grid-template-columns: 1fr !important; }
+  #ficha-modal > div:last-child > div:last-child { border-left: none !important; border-top: 1px solid #222; padding-left: 0 !important; padding-top: 18px !important; }
+}
+</style>
 
 </body>
 </html>
