@@ -1,0 +1,7 @@
+{
+  "version": 2,
+  "rewrites": [
+    { "source": "/api/speedio", "destination": "/api/speedio" },
+    { "source": "/api/cnpja/:cnpj", "destination": "/api/cnpja?cnpj=:cnpj" }
+  ]
+}

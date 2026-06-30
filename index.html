@@ -2877,35 +2877,36 @@
     // Format city for Speedio (uppercase, remove accents)
     const cleanCity = city.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toUpperCase();
     
-    const spBase = 'https://api-publica.speedio.com.br';
-    const spPath = `/buscarbi?cnae=${cnaeCode}&uf=${uf}&municipio=${encodeURIComponent(cleanCity)}`;
-    const localProxyUrl  = `http://localhost:3456/speedio${spPath}`;
-    const directUrl      = `${spBase}${spPath}`;
+    const qs = `?cnae=${cnaeCode}&uf=${uf}&municipio=${encodeURIComponent(cleanCity)}`;
+    const vercelApiUrl   = `/api/speedio${qs}`;          // Vercel serverless (deployed)
+    const localProxyUrl  = `http://localhost:3456/speedio/buscarbi${qs}`; // local proxy (presentation)
+    const directUrl      = `https://api-publica.speedio.com.br/buscarbi${qs}`; // direct fallback
 
-    // Strategy: 1) try local proxy (presentation mode), 2) try direct (when deployed), 3) fallback
     let rawLeads = null;
     let apiError = null;
 
     const tryFetch = async (url, label) => {
       try {
         const ctrl = new AbortController();
-        const tid = setTimeout(() => ctrl.abort(), 10000);
+        const tid = setTimeout(() => ctrl.abort(), 12000);
         const res = await fetch(url, { signal: ctrl.signal });
         clearTimeout(tid);
         if (!res.ok) throw new Error(`${label} HTTP ${res.status}`);
         const data = await res.json();
-        if (!Array.isArray(data) || data.length === 0) throw new Error(`${label} returned empty`);
+        if (!Array.isArray(data) || data.length === 0) throw new Error(`${label} vazio`);
         console.log(`[API] ${label} OK: ${data.length} empresas`);
         return data;
       } catch(e) {
-        console.warn(`[API] ${label} failed:`, e.message);
+        console.warn(`[API] ${label} falhou:`, e.message);
         return null;
       }
     };
 
-    rawLeads = await tryFetch(localProxyUrl, 'Proxy local');
+    // 1) Vercel serverless (works on deployed site with CORS), 2) Local proxy (offline presentation), 3) Direct (last resort)
+    rawLeads = await tryFetch(vercelApiUrl, 'Vercel API');
+    if (!rawLeads) rawLeads = await tryFetch(localProxyUrl, 'Proxy local');
     if (!rawLeads) rawLeads = await tryFetch(directUrl, 'Direct API');
-    if (!rawLeads) apiError = new Error('All sources failed');
+    if (!rawLeads) apiError = new Error('Todas as fontes falharam');
     
     try {
       if (apiError || !Array.isArray(rawLeads) || rawLeads.length === 0) {
@@ -2918,15 +2919,17 @@
       // Query CNPJA for detailed QSA (also through proxy)
       const fetchPromises = leads.map(l => {
         const cleanCNPJ = l.CNPJ.replace(/\D/g, '');
+        const vercelCnpja = `/api/cnpja/${cleanCNPJ}`;
         const localCnpja  = `http://localhost:3456/cnpja/office/${cleanCNPJ}`;
         const directCnpja = `https://open.cnpja.com/office/${cleanCNPJ}`;
         
         const fetchCnpja = (url) => fetch(url).then(r => { if(!r.ok) throw new Error(); return r.json(); });
 
-        return fetchCnpja(localCnpja)
+        return fetchCnpja(vercelCnpja)
+          .catch(() => fetchCnpja(localCnpja))
           .catch(() => fetchCnpja(directCnpja))
           .catch(() => {
-            // Both failed
+            // All failed
             const dummy = null;
             return fetchCnpja(dummy)
               .catch(() => {
