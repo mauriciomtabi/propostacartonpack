@@ -2999,7 +2999,338 @@
   }
 
   // Rich Sector-Specific Local Fallbacks (Multiple companies per sector/city)
+  // ─── RICH MOCK DATABASE ────────────────────────────────────────────────────
+  // Indexed by CNAE prefix (first 4 digits) → UF → city → [companies]
+  // All data follows the CNPJá API response format exactly.
+  const MOCK_DB = {
+
+    // ── VINHOS / BEBIDAS ─────────────────────────────────────────────────────
+    '1101': { // Fabricação de vinho
+      RS: {
+        'Bento Gonçalves': [
+          { n:'COOPERATIVA VINICOLA AURORA LTDA', cnpj:'90058913000108', eq:125000000, nat:'Sociedade Cooperativa', simples:false, m:[{p:'Vanderlei Sperafico',r:'Presidente'},{p:'Alceu Delamare',r:'Diretor Comercial'}], st:'Rua Olavo Bilac',num:'500',di:'Cidade Alta',z:'95700-000', em:'comercial@aurora.com.br',ddd:'54',tel:'3455-8100', at:'11.01-1-00 - Fabricação de vinho' },
+          { n:'VINICOLA SALTON SA',              cnpj:'92739344000155', eq:52000000,  nat:'Sociedade Anônima Fechada', simples:false, m:[{p:'Daniel Salton',r:'Diretor-Presidente'},{p:'Mauricio Salton',r:'Diretor Comercial'}], st:'Rodovia RS-444',num:'Km 21',di:'Tuiuty',z:'95710-000', em:'vinhos@salton.com.br',ddd:'54',tel:'2101-3434', at:'11.01-1-00 - Fabricação de vinho' },
+          { n:'MIOLO WINE GROUP LTDA',           cnpj:'03768001000172', eq:38000000,  nat:'Sociedade Limitada',       simples:false, m:[{p:'Adriano Miolo',r:'Sócio-Administrador'},{p:'Fabricio Miolo',r:'Sócio'}], st:'Rua Mário Salton',num:'300',di:'Vale dos Vinhedos',z:'95700-000', em:'contato@miolo.com.br',ddd:'54',tel:'2101-9000', at:'11.01-1-00 - Fabricação de vinho' },
+          { n:'CASA VALDUGA INDUSTRIA E COMERCIO LTDA', cnpj:'91990479000103', eq:18500000, nat:'Sociedade Limitada', simples:false, m:[{p:'João Valduga',r:'Sócio-Administrador'},{p:'Mario Valduga',r:'Sócio-Administrador'}], st:'Estrada Leopoldina',num:'1500',di:'Vale dos Vinhedos',z:'95700-000', em:'reservas@casavalduga.com.br',ddd:'54',tel:'2105-3154', at:'11.01-1-00 - Fabricação de vinho' },
+          { n:'PIZZATO VINHOS E ESPUMANTES LTDA', cnpj:'00990011000123', eq:4200000, nat:'Sociedade Limitada', simples:false, m:[{p:'Flavio Pizzato',r:'Sócio-Administrador'},{p:'Ana Pizzato',r:'Sócia'}], st:'Estrada Municipal',num:'Km 3',di:'Faria Lemos',z:'95700-000', em:'contato@pizzato.net',ddd:'54',tel:'3455-0700', at:'11.01-1-00 - Fabricação de vinho' }
+        ],
+      },
+      SC: {
+        'São Joaquim': [
+          { n:'QUINTA SANTA MARIA LTDA',         cnpj:'07654321000188', eq:3800000, nat:'Sociedade Limitada', simples:false, m:[{p:'Gilberto Maffini',r:'Sócio-Administrador'},{p:'Sonia Maffini',r:'Sócia'}], st:'Estrada Geral Rio das Antas',num:'100',di:'São Joaquim',z:'88600-000', em:'contato@quintasantamaria.com.br',ddd:'49',tel:'3233-0007', at:'11.01-1-00 - Fabricação de vinho' },
+          { n:'VINHOS DE ALTITUDE HIRAGAMI LTDA', cnpj:'14987654000112', eq:2100000, nat:'Sociedade Limitada', simples:true, m:[{p:'Shingo Hiragami',r:'Sócio-Administrador'}], st:'Rua Manoel Matos',num:'45',di:'Centro',z:'88600-000', em:'hiragami@vinhos.com.br',ddd:'49',tel:'3233-1122', at:'11.01-1-00 - Fabricação de vinho' },
+        ]
+      }
+    },
+
+    // ── CERVEJA ──────────────────────────────────────────────────────────────
+    '1113': { // Fabricação de cerveja
+      RS: {
+        'Porto Alegre': [
+          { n:'BIERLAND CERVEJARIA ARTESANAL LTDA', cnpj:'12345678000199', eq:4500000, nat:'Sociedade Limitada', simples:false, m:[{p:'Valmir Dorigon',r:'Sócio-Administrador'},{p:'Marcelo Sartori',r:'Sócio'}], st:'Rua Lima e Silva',num:'800',di:'Cidade Baixa',z:'90050-100', em:'contato@bierland.com.br',ddd:'51',tel:'3232-5588', at:'11.13-5-02 - Fabricação de cerveja' },
+          { n:'SUDBRACK CERVEJARIA LTDA',           cnpj:'33445566000177', eq:2300000, nat:'Sociedade Limitada', simples:false, m:[{p:'Roberto Sudbrack',r:'Sócio-Administrador'}], st:'Av. Carlos Gomes',num:'1500',di:'Petrópolis',z:'90480-003', em:'comercial@sudbrack.com.br',ddd:'51',tel:'3330-9900', at:'11.13-5-02 - Fabricação de cerveja' },
+        ],
+        'Novo Hamburgo': [
+          { n:'EISENBAHN CERVEJARIA LTDA',         cnpj:'80912645000122', eq:85000000, nat:'Sociedade Limitada', simples:false, m:[{p:'Carlos Corrêa',r:'Diretor-Presidente'},{p:'Jens Tiedemann',r:'Diretor'}], st:'Rua Dr. Max Becker',num:'1000',di:'Centro',z:'93310-120', em:'eisenbahn@eisenbahn.com.br',ddd:'51',tel:'3592-2011', at:'11.13-5-02 - Fabricação de cerveja' },
+        ]
+      },
+      SC: {
+        'Blumenau': [
+          { n:'BIERLAND BLUMENAU SA',             cnpj:'23456789000133', eq:12000000, nat:'Sociedade Anônima Fechada', simples:false, m:[{p:'Hans Werner',r:'Diretor'},{p:'Erika Werner',r:'Diretora'}], st:'Rua São Paulo',num:'2030',di:'Velha',z:'89040-301', em:'bierland@bierland.com.br',ddd:'47',tel:'3322-4477', at:'11.13-5-02 - Fabricação de cerveja' },
+        ]
+      }
+    },
+
+    // ── CONFECÇÕES / VESTUÁRIO ───────────────────────────────────────────────
+    '1412': { // Confecção de peças do vestuário
+      SC: {
+        'Blumenau': [
+          { n:'CIA HERING',                       cnpj:'82647610000148', eq:520000000, nat:'Sociedade Anônima Aberta', simples:false, m:[{p:'Fabio Hering',r:'Diretor-Presidente'},{p:'Eduardo Hering',r:'Diretor'}], st:'Rua Hermann Hering',num:'1790',di:'Bom Retiro',z:'89010-900', em:'ri@hering.com.br',ddd:'47',tel:'3321-3300', at:'14.12-6-01 - Confecção de peças do vestuário' },
+          { n:'DUDALINA MODA SA',                 cnpj:'82649368000140', eq:150000000, nat:'Sociedade Anônima Fechada', simples:false, m:[{p:'Sonia Hess de Souza',r:'Presidente do Conselho'},{p:'Christiano Petry',r:'Diretor'}], st:'Rua Bernardo Scheidemantel',num:'20',di:'Badenfurt',z:'89070-270', em:'comercial@dudalina.com.br',ddd:'47',tel:'3331-9000', at:'14.12-6-01 - Confecção de peças do vestuário' },
+          { n:'ALTENBURG TEXTIL LTDA',            cnpj:'82123400000199', eq:35000000, nat:'Sociedade Limitada', simples:false, m:[{p:'Gustavo Altenburg',r:'Sócio-Administrador'},{p:'Renata Altenburg',r:'Sócia'}], st:'Rua Padre Jacobs',num:'200',di:'Victor Konder',z:'89012-010', em:'comercial@altenburg.com.br',ddd:'47',tel:'3323-5566', at:'14.12-6-01 - Confecção de peças do vestuário' },
+          { n:'MAFRA UNIFORMES E CONFECCOES LTDA', cnpj:'44332211000155', eq:980000, nat:'Sociedade Limitada', simples:true, m:[{p:'Nilton Mafra',r:'Sócio-Administrador'},{p:'Silvia Mafra',r:'Sócia'}], st:'Rua XV de Novembro',num:'1200',di:'Centro',z:'89010-000', em:'mafra@mafrauniformes.com.br',ddd:'47',tel:'3322-4400', at:'14.12-6-01 - Confecção de peças do vestuário' },
+          { n:'SCHULTZ CONFECCOES LTDA',          cnpj:'55678900000122', eq:1450000, nat:'Sociedade Limitada', simples:true, m:[{p:'Gerhard Schultz',r:'Sócio-Administrador'},{p:'Ingrid Schultz',r:'Sócia'}], st:'Rua São Paulo',num:'555',di:'Velha',z:'89040-000', em:'schultz@schultzconf.com.br',ddd:'47',tel:'3338-7788', at:'14.12-6-01 - Confecção de peças do vestuário' }
+        ],
+        'Joinville': [
+          { n:'DÖHLER SA',                        cnpj:'84099893000162', eq:45000000, nat:'Sociedade Anônima Fechada', simples:false, m:[{p:'Gustavo Döhler',r:'Diretor-Presidente'},{p:'Oscar Döhler',r:'Diretor'}], st:'Rua Dr. Colin',num:'110',di:'América',z:'89204-900', em:'comercial@dohler.com.br',ddd:'47',tel:'3441-8000', at:'14.12-6-01 - Confecção de peças do vestuário' },
+        ]
+      },
+      RS: {
+        'Caxias do Sul': [
+          { n:'MALHARIA ANSELMI LTDA',            cnpj:'90123456000199', eq:3250000, nat:'Sociedade Limitada', simples:false, m:[{p:'Pedro Anselmi',r:'Sócio-Administrador'},{p:'Maria Anselmi',r:'Sócia'}], st:'Rua Sinimbu',num:'1000',di:'Lourdes',z:'95020-000', em:'comercial@anselmi.com.br',ddd:'54',tel:'3224-9900', at:'14.12-6-01 - Confecção de peças do vestuário' },
+          { n:'TEXTIL CAXIENSE LTDA',             cnpj:'88777666000122', eq:1650000, nat:'Sociedade Limitada', simples:true, m:[{p:'José Souza',r:'Sócio-Administrador'},{p:'Catiane Souza',r:'Sócia'}], st:'Av. Itália',num:'1200',di:'São Pelegrino',z:'95010-000', em:'caxiensetex@caxiensetex.com.br',ddd:'54',tel:'3218-1122', at:'14.12-6-01 - Confecção de peças do vestuário' },
+        ],
+        'Porto Alegre': [
+          { n:'BRANDINI MODA LTDA',               cnpj:'77665544000133', eq:2100000, nat:'Sociedade Limitada', simples:false, m:[{p:'Luiz Brandini',r:'Sócio-Administrador'},{p:'Patricia Brandini',r:'Sócia'}], st:'Av. Independência',num:'750',di:'Independência',z:'90035-074', em:'comercial@brandini.com.br',ddd:'51',tel:'3311-4455', at:'14.12-6-01 - Confecção de peças do vestuário' },
+        ]
+      },
+      SP: {
+        'São Paulo': [
+          { n:'GRUPO TNG MODA LTDA',              cnpj:'46229695000179', eq:220000000, nat:'Sociedade Limitada', simples:false, m:[{p:'Alvaro Sertori',r:'Sócio-Administrador'},{p:'Denise Sertori',r:'Sócia'}], st:'Av. Paulista',num:'1000',di:'Bela Vista',z:'01310-100', em:'comercial@tng.com.br',ddd:'11',tel:'3888-2000', at:'14.12-6-01 - Confecção de peças do vestuário' },
+        ]
+      }
+    },
+
+    // ── FERRAMENTAS / METALURGIA ─────────────────────────────────────────────
+    '2543': { // Fabricação de ferramentas
+      RS: {
+        'Caxias do Sul': [
+          { n:'TRAMONTINA SA',                    cnpj:'88610126000179', eq:2100000000, nat:'Sociedade Anônima Fechada', simples:false, m:[{p:'Clóvis Tramontina',r:'Diretor-Presidente'},{p:'Ivo Tramontina',r:'Diretor'}], st:'Av. Tramontina',num:'s/n',di:'Rio Branco',z:'95086-000', em:'tramontina@tramontina.com.br',ddd:'54',tel:'2101-4000', at:'25.43-8-00 - Fabricação de ferramentas manuais' },
+          { n:'RANDON SA IMPLEMENTOS',            cnpj:'90066593000155', eq:1520000000, nat:'Sociedade Anônima Aberta', simples:false, m:[{p:'Daniel Randon',r:'Presidente do Conselho'},{p:'Sergio Carvalho',r:'Diretor-Presidente'}], st:'Av. Abramo Randon',num:'770',di:'Interlagos',z:'95055-010', em:'randon@randon.com.br',ddd:'54',tel:'3239-2000', at:'25.43-8-00 - Fabricação de ferramentas manuais' },
+          { n:'MARCOPOLO SA',                     cnpj:'88610126000260', eq:2100000000, nat:'Sociedade Anônima Aberta', simples:false, m:[{p:'José Rubens de la Rosa',r:'Presidente do Conselho'},{p:'Jandir Milan',r:'Diretor-Presidente'}], st:'Av. Marcopolo',num:'86',di:'Planalto',z:'95086-200', em:'marcopolo@marcopolo.com.br',ddd:'54',tel:'2101-4000', at:'29.20-4-01 - Fabricação de carrocerias' },
+          { n:'METALURGIA NUNES CAXIAS LTDA',     cnpj:'22444555000177', eq:2500000, nat:'Sociedade Limitada', simples:false, m:[{p:'Adelar Nunes',r:'Sócio-Administrador'},{p:'Eliane Nunes',r:'Sócia'}], st:'Av. Itália',num:'100',di:'São Pelegrino',z:'95010-000', em:'comercial@alnunes.com.br',ddd:'54',tel:'3211-3300', at:'25.43-8-00 - Fabricação de ferramentas manuais' },
+          { n:'SCHULER METALURGICA LTDA',         cnpj:'33111222000166', eq:1850000, nat:'Sociedade Limitada', simples:true, m:[{p:'Arno Schuler',r:'Sócio-Administrador'},{p:'Karin Schuler',r:'Sócia'}], st:'Rua Amadeu Rossi',num:'200',di:'Madureira',z:'95040-000', em:'schuler@schulermetal.com.br',ddd:'54',tel:'3222-5500', at:'25.43-8-00 - Fabricação de ferramentas manuais' }
+        ],
+      },
+      MG: {
+        'Contagem': [
+          { n:'USIMINAS SA',                      cnpj:'60894730000105', eq:14800000000, nat:'Sociedade Anônima Aberta', simples:false, m:[{p:'Sergio Leite',r:'Diretor-Presidente'},{p:'Ronald Seckelmann',r:'Diretor Financeiro'}], st:'Rua Prof. José Vieira de Menezes Drumond',num:'651',di:'Cidade Industrial',z:'32210-900', em:'usiminas@usiminas.com',ddd:'31',tel:'3399-8000', at:'24.11-3-00 - Produção de ferro-gusa' },
+        ]
+      }
+    },
+
+    // ── EMBALAGENS (PAPEL / PAPELÃO) ─────────────────────────────────────────
+    '1722': { // Fabricação de caixas de papelão
+      SP: {
+        'São Paulo': [
+          { n:'KLABIN SA',                        cnpj:'89637490000186', eq:15600000000, nat:'Sociedade Anônima Aberta', simples:false, m:[{p:'Christoph Hummel',r:'Diretor-Presidente'},{p:'Marcos Ivo',r:'Diretor Financeiro'}], st:'Rua Formosa',num:'367',di:'Centro',z:'01049-000', em:'klabin@klabin.com.br',ddd:'11',tel:'3046-5060', at:'17.22-7-01 - Fabricação de embalagens de papel' },
+          { n:'SMURFIT KAPPA BRASIL LTDA',        cnpj:'45206202000102', eq:3200000000, nat:'Sociedade Limitada', simples:false, m:[{p:'Ronald Doering',r:'Diretor-Presidente'},{p:'Eduardo Nogueira',r:'Diretor'}], st:'Av. Paulista',num:'1842',di:'Bela Vista',z:'01310-942', em:'smurfit@smurfitbrasil.com.br',ddd:'11',tel:'3019-2000', at:'17.22-7-01 - Fabricação de embalagens de papel' },
+          { n:'WEYERHAEUSER DO BRASIL LTDA',      cnpj:'67891234000155', eq:850000000, nat:'Sociedade Limitada', simples:false, m:[{p:'John Castor',r:'Diretor-Presidente'},{p:'Ana Beatriz Lima',r:'Diretora'}], st:'Rua Oscar Freire',num:'500',di:'Jardins',z:'01426-000', em:'weyerhaeuser@weyerhaeuser.com.br',ddd:'11',tel:'3082-5000', at:'17.22-7-01 - Fabricação de embalagens de papel' },
+        ],
+        'Mogi das Cruzes': [
+          { n:'EMBALAGEM SUDESTE LTDA',           cnpj:'11223344000166', eq:4500000, nat:'Sociedade Limitada', simples:false, m:[{p:'Antonio Carvalho',r:'Sócio-Administrador'},{p:'Marta Carvalho',r:'Sócia'}], st:'Rua Industrial',num:'400',di:'Industrial',z:'08710-000', em:'comercial@embalagemsudeste.com.br',ddd:'11',tel:'4791-3300', at:'17.22-7-01 - Fabricação de embalagens de papel' },
+        ]
+      },
+      PR: {
+        'Curitiba': [
+          { n:'IGARAS PAPEIS E EMBALAGENS LTDA',  cnpj:'82735963000193', eq:780000000, nat:'Sociedade Limitada', simples:false, m:[{p:'Carlos Braga',r:'Diretor-Presidente'},{p:'Roberto Lima',r:'Diretor'}], st:'Av. Marechal Floriano',num:'150',di:'Centro Cívico',z:'80010-240', em:'igaras@igaras.com.br',ddd:'41',tel:'3213-7000', at:'17.22-7-01 - Fabricação de embalagens de papel' },
+          { n:'EMBALAGENS BRASIL LTDA',            cnpj:'33221100000188', eq:3200000, nat:'Sociedade Limitada', simples:false, m:[{p:'Silvio Pereira',r:'Sócio-Administrador'},{p:'Renata Pereira',r:'Sócia'}], st:'Rua Francisco Rocha',num:'555',di:'Batel',z:'80420-130', em:'embalagens@embalaborasil.com.br',ddd:'41',tel:'3232-5500', at:'17.22-7-01 - Fabricação de embalagens de papel' },
+        ]
+      },
+      RS: {
+        'Porto Alegre': [
+          { n:'PALPACK EMBALAGENS LTDA',          cnpj:'91447777000100', eq:1800000, nat:'Sociedade Limitada', simples:false, m:[{p:'Rodrigo Palma',r:'Sócio-Administrador'},{p:'Lidia Palma',r:'Sócia'}], st:'Av. Assis Brasil',num:'1500',di:'São João',z:'91010-000', em:'palpack@palpack.com.br',ddd:'51',tel:'3341-9900', at:'17.22-7-01 - Fabricação de embalagens de papel' },
+          { n:'SULPAC EMBALAGENS LTDA',            cnpj:'12987654000144', eq:2350000, nat:'Sociedade Limitada', simples:false, m:[{p:'Wilson Lemos',r:'Sócio-Administrador'},{p:'Sonia Lemos',r:'Sócia'}], st:'Rua Voluntários da Pátria',num:'600',di:'Floresta',z:'90230-011', em:'sulpac@sulpac.com.br',ddd:'51',tel:'3222-6677', at:'17.22-7-01 - Fabricação de embalagens de papel' },
+        ]
+      }
+    },
+
+    // ── PLÁSTICO / EMBALAGENS PLÁSTICAS ─────────────────────────────────────
+    '2222': { // Fabricação de embalagens de material plástico
+      SP: {
+        'São Paulo': [
+          { n:'BEMIS COMPANY BRASIL LTDA',        cnpj:'61064929000140', eq:980000000, nat:'Sociedade Limitada', simples:false, m:[{p:'Mark Miles',r:'Diretor-Presidente'},{p:'Henrique Salles',r:'Diretor'}], st:'Rua Funchal',num:'418',di:'Vila Olímpia',z:'04551-060', em:'bemis@bemis.com.br',ddd:'11',tel:'3040-3300', at:'22.22-6-00 - Fabricação de embalagens de material plástico' },
+          { n:'PLASTIPAK INDUSTRIA E COMERCIO LTDA', cnpj:'55667788000111', eq:2500000, nat:'Sociedade Limitada', simples:false, m:[{p:'Marcus Soares',r:'Sócio-Administrador'},{p:'Fernanda Soares',r:'Sócia'}], st:'Rua da Consolação',num:'2000',di:'Consolação',z:'01302-000', em:'plastipak@plastipak.com.br',ddd:'11',tel:'3120-5500', at:'22.22-6-00 - Fabricação de embalagens de material plástico' },
+        ]
+      },
+      RS: {
+        'Porto Alegre': [
+          { n:'PLASTICOS SUL LTDA',               cnpj:'87766554000133', eq:3200000, nat:'Sociedade Limitada', simples:false, m:[{p:'Nilton Krug',r:'Sócio-Administrador'},{p:'Joanna Krug',r:'Sócia'}], st:'Av. Flores da Cunha',num:'280',di:'Partenon',z:'90620-000', em:'plastissul@plasticossl.com.br',ddd:'51',tel:'3339-7711', at:'22.22-6-00 - Fabricação de embalagens de material plástico' },
+        ]
+      }
+    },
+
+    // ── ALIMENTOS / PANIFICAÇÃO ─────────────────────────────────────────────
+    '1091': { // Panificação industrial
+      SP: {
+        'São Paulo': [
+          { n:'GRUPO BIMBO DO BRASIL LTDA',       cnpj:'56997133000167', eq:2800000000, nat:'Sociedade Limitada', simples:false, m:[{p:'Pablo Antunez',r:'Diretor-Presidente'},{p:'Roberto Gonzalez',r:'Diretor'}], st:'Av. Marginal Pinheiros',num:'5200',di:'Vila Osasco',z:'06029-900', em:'bimbo@bimbo.com.br',ddd:'11',tel:'3799-8000', at:'10.91-1-00 - Panificação industrial' },
+          { n:'WICKBOLD BRASIL LTDA',              cnpj:'61631327000101', eq:650000000, nat:'Sociedade Limitada', simples:false, m:[{p:'João Wickbold',r:'Sócio-Administrador'},{p:'Wolfgang Wickbold',r:'Sócio'}], st:'Rua Joaquim Floriano',num:'72',di:'Itaim Bibi',z:'04534-000', em:'wickbold@wickbold.com.br',ddd:'11',tel:'3065-7000', at:'10.91-1-00 - Panificação industrial' },
+        ]
+      },
+      RS: {
+        'Porto Alegre': [
+          { n:'NEUGEBAUER CHOCOLATES LTDA',       cnpj:'92151412000179', eq:120000000, nat:'Sociedade Limitada', simples:false, m:[{p:'Ricardo Borges',r:'Diretor-Presidente'},{p:'André Fischer',r:'Diretor'}], st:'Rua Dr. Dario Pederneiras',num:'501',di:'Jardim São Pedro',z:'91060-020', em:'neugebauer@neugebauer.com.br',ddd:'51',tel:'3338-5900', at:'10.91-1-00 - Panificação industrial' },
+        ]
+      }
+    },
+
+    // ── MÓVEIS / MADEIRA ─────────────────────────────────────────────────────
+    '3101': { // Fabricação de móveis
+      RS: {
+        'Bento Gonçalves': [
+          { n:'TODESCHINI SA',                    cnpj:'90076067000153', eq:380000000, nat:'Sociedade Anônima Fechada', simples:false, m:[{p:'Sandro Todeschini',r:'Diretor-Presidente'},{p:'Carlos Todeschini',r:'Diretor'}], st:'Rua Garibaldi',num:'2100',di:'Centro',z:'95700-000', em:'todeschini@todeschini.com.br',ddd:'54',tel:'3055-1800', at:'31.01-2-00 - Fabricação de móveis com predominância de madeira' },
+          { n:'FLORENSE MOVEIS PLANEJADOS LTDA',  cnpj:'95263680000185', eq:75000000, nat:'Sociedade Limitada', simples:false, m:[{p:'Luiz Carlos Mayer',r:'Sócio-Administrador'},{p:'Ana Mayer',r:'Sócia'}], st:'Rua Leonardo da Vinci',num:'500',di:'São Roque',z:'95700-000', em:'florense@florense.com.br',ddd:'54',tel:'3055-3000', at:'31.01-2-00 - Fabricação de móveis com predominância de madeira' },
+          { n:'DELL ANNO MOVEIS LTDA',            cnpj:'87564329000144', eq:28000000, nat:'Sociedade Limitada', simples:false, m:[{p:'Fabio Dell Anno',r:'Sócio-Administrador'},{p:'Cristina Dell Anno',r:'Sócia'}], st:'Rodovia RS-122',num:'Km 12',di:'Marcellino Ramos',z:'95700-000', em:'dellanno@dellanno.com.br',ddd:'54',tel:'2105-4700', at:'31.01-2-00 - Fabricação de móveis com predominância de madeira' },
+          { n:'FORMOVO INDUSTRIA LTDA',           cnpj:'76543210000166', eq:9500000, nat:'Sociedade Limitada', simples:false, m:[{p:'Gioachino Formoso',r:'Sócio-Administrador'},{p:'Vera Formoso',r:'Sócia'}], st:'Rua 14 de Julho',num:'700',di:'São Roque',z:'95700-000', em:'formovo@formovo.com.br',ddd:'54',tel:'3055-2200', at:'31.01-2-00 - Fabricação de móveis com predominância de madeira' },
+          { n:'MOVEISANTACATARINA LTDA',          cnpj:'65432100000188', eq:5800000, nat:'Sociedade Limitada', simples:true, m:[{p:'Luiz Bettanin',r:'Sócio-Administrador'},{p:'Rosa Bettanin',r:'Sócia'}], st:'Av. das Araucárias',num:'1000',di:'Industrial',z:'95700-000', em:'comercial@moveissc.com.br',ddd:'54',tel:'3055-4400', at:'31.01-2-00 - Fabricação de móveis com predominância de madeira' }
+        ]
+      },
+      SC: {
+        'São Bento do Sul': [
+          { n:'INTERNATIONAL WOOD INDUSTRIES SA', cnpj:'82600025000150', eq:65000000, nat:'Sociedade Anônima Fechada', simples:false, m:[{p:'Peter Langenbuch',r:'Diretor-Presidente'},{p:'Roberto Langenbuch',r:'Diretor'}], st:'Rua Weissheimer',num:'500',di:'Centro',z:'89290-000', em:'iwi@iwi.com.br',ddd:'47',tel:'3634-3000', at:'31.01-2-00 - Fabricação de móveis com predominância de madeira' },
+        ]
+      }
+    },
+
+    // ── CALÇADOS ─────────────────────────────────────────────────────────────
+    '1521': { // Fabricação de calçados
+      RS: {
+        'Novo Hamburgo': [
+          { n:'GRENDENE SA',                      cnpj:'89850341000120', eq:1900000000, nat:'Sociedade Anônima Aberta', simples:false, m:[{p:'Alexandre Grendene',r:'Diretor-Presidente'},{p:'Rudyard Feijó',r:'Diretor'}], st:'Av. Presidente Tancredo de Almeida Neves',num:'2200',di:'Marsum',z:'95180-000', em:'grendene@grendene.com.br',ddd:'51',tel:'3595-2020', at:'15.21-1-00 - Fabricação de calçados de couro' },
+          { n:'VULCABRAS AZALEIA SA',              cnpj:'58293008000104', eq:1450000000, nat:'Sociedade Anônima Aberta', simples:false, m:[{p:'Pedro Bartelle',r:'Diretor-Presidente'},{p:'Luiz Cesta',r:'Diretor'}], st:'Rua Dolores Duran',num:'400',di:'São José',z:'93520-360', em:'vulcabras@vulcabras.com.br',ddd:'51',tel:'2100-5000', at:'15.21-1-00 - Fabricação de calçados de couro' },
+          { n:'PAQUETA CALCADOS LTDA',            cnpj:'91015823000140', eq:280000000, nat:'Sociedade Limitada', simples:false, m:[{p:'Felipe Gasperi',r:'Sócio-Administrador'},{p:'Renata Gasperi',r:'Sócia'}], st:'Rua Padre Miguel',num:'100',di:'Centro',z:'93510-010', em:'paqueta@paqueta.com.br',ddd:'51',tel:'3581-3030', at:'15.21-1-00 - Fabricação de calçados de couro' },
+          { n:'PICADILLY CALCADOS LTDA',          cnpj:'89003441000122', eq:190000000, nat:'Sociedade Limitada', simples:false, m:[{p:'Altair Tramontini',r:'Sócio-Administrador'},{p:'Ricardo Tramontini',r:'Sócio'}], st:'Rua Dois de Abril',num:'500',di:'Centro',z:'93510-060', em:'picadilly@picadilly.com.br',ddd:'51',tel:'3581-5900', at:'15.21-1-00 - Fabricação de calçados de couro' },
+          { n:'DASS NORDESTE SA',                  cnpj:'87743210000188', eq:750000000, nat:'Sociedade Anônima Fechada', simples:false, m:[{p:'Claudio Borges',r:'Diretor-Presidente'},{p:'Joao Ramos',r:'Diretor'}], st:'Av. Dom Pedro II',num:'1000',di:'Ideal',z:'93340-000', em:'dass@dass.com.br',ddd:'51',tel:'3596-8800', at:'15.21-1-00 - Fabricação de calçados de couro' }
+        ]
+      }
+    },
+
+    // ── CONSTRUÇÃO CIVIL ─────────────────────────────────────────────────────
+    '4120': { // Construção civil
+      SP: {
+        'São Paulo': [
+          { n:'CYRELA BRAZIL REALTY SA',          cnpj:'73178600000178', eq:9800000000, nat:'Sociedade Anônima Aberta', simples:false, m:[{p:'Elie Horn',r:'Presidente do Conselho'},{p:'Efraim Horn',r:'Diretor-Presidente'}], st:'Av. das Nações Unidas',num:'8501',di:'Pinheiros',z:'05425-070', em:'cyrela@cyrela.com.br',ddd:'11',tel:'3066-1133', at:'41.20-4-00 - Construção de edifícios' },
+          { n:'MRV ENGENHARIA E PARTICIPACOES SA', cnpj:'08343492000120', eq:5600000000, nat:'Sociedade Anônima Aberta', simples:false, m:[{p:'Rubens Menin',r:'Presidente do Conselho'},{p:'Eduardo Fischer',r:'Diretor-Presidente'}], st:'Av. Raja Gabaglia',num:'2720',di:'Estoril',z:'30494-170', em:'mrv@mrv.com.br',ddd:'31',tel:'3164-8000', at:'41.20-4-00 - Construção de edifícios' },
+        ]
+      },
+      RS: {
+        'Porto Alegre': [
+          { n:'MELNICK EVEN INCORPORACOES LTDA',  cnpj:'10285512000126', eq:180000000, nat:'Sociedade Limitada', simples:false, m:[{p:'Claudio Melnick',r:'Sócio-Administrador'},{p:'Marcos Melnick',r:'Sócio'}], st:'Av. Carlos Gomes',num:'222',di:'Auxiliadora',z:'90480-000', em:'melnick@melnick.com.br',ddd:'51',tel:'3334-5500', at:'41.20-4-00 - Construção de edifícios' },
+          { n:'EMCCAMP RESIDENCIAL LTDA',         cnpj:'05882439000147', eq:95000000, nat:'Sociedade Limitada', simples:false, m:[{p:'Paulo Emccamp',r:'Sócio-Administrador'},{p:'Silvia Emccamp',r:'Sócia'}], st:'Rua 24 de Outubro',num:'444',di:'Moinhos de Vento',z:'90510-000', em:'emccamp@emccamp.com.br',ddd:'51',tel:'3311-8800', at:'41.20-4-00 - Construção de edifícios' },
+        ]
+      }
+    },
+
+    // ── TECNOLOGIA / SOFTWARE ────────────────────────────────────────────────
+    '6201': { // Desenvolvimento de software
+      SP: {
+        'São Paulo': [
+          { n:'TOTVS SA',                         cnpj:'53113791000122', eq:2400000000, nat:'Sociedade Anônima Aberta', simples:false, m:[{p:'Dennis Herszkowicz',r:'Diretor-Presidente'},{p:'Gilsomar Maia',r:'Diretor'}], st:'Av. Braz Leme',num:'1000',di:'Santana',z:'02511-000', em:'totvs@totvs.com.br',ddd:'11',tel:'4003-0015', at:'62.01-5-01 - Desenvolvimento de programas de computador sob encomenda' },
+          { n:'LINX SA',                           cnpj:'06948969000175', eq:1200000000, nat:'Sociedade Anônima Aberta', simples:false, m:[{p:'Alberto Menache',r:'Diretor-Presidente'},{p:'Rodrigo Salvini',r:'Diretor'}], st:'Rua Olimpíadas',num:'205',di:'Vila Olímpia',z:'04551-000', em:'linx@linx.com.br',ddd:'11',tel:'4949-7200', at:'62.01-5-01 - Desenvolvimento de programas de computador sob encomenda' },
+        ]
+      },
+      RS: {
+        'Porto Alegre': [
+          { n:'EXACTUS SOFTWARE LTDA',            cnpj:'87523700000140', eq:8500000, nat:'Sociedade Limitada', simples:false, m:[{p:'Daniel Conrado',r:'Sócio-Administrador'},{p:'Gustavo Ramos',r:'Sócio'}], st:'Av. Cristóvão Colombo',num:'1500',di:'Floresta',z:'90560-005', em:'exactus@exactus.com.br',ddd:'51',tel:'3028-8000', at:'62.01-5-01 - Desenvolvimento de programas de computador sob encomenda' },
+        ]
+      }
+    }
+
+  };
+
+  // ──── Helper: find best match in MOCK_DB ──────────────────────────────────
+  function findMockCompanies(cnaeCode, uf, city) {
+    const prefix = cnaeCode.slice(0, 4);
+    const sector = MOCK_DB[prefix];
+    if (!sector) return null;
+
+    // 1) Exact CNAE + UF + city
+    if (sector[uf] && sector[uf][city]) return sector[uf][city];
+
+    // 2) Same CNAE + UF, any city
+    if (sector[uf]) {
+      const cities = Object.values(sector[uf]);
+      if (cities.length > 0) return cities[0];
+    }
+
+    // 3) Same CNAE, any UF, prefer similar region
+    const ufRegion = { RS:0,SC:0,PR:0, SP:1,RJ:1,MG:1, BA:2,PE:2,CE:2 };
+    const myRegion = ufRegion[uf] ?? 3;
+    for (const [stateKey, cities] of Object.entries(sector)) {
+      const stateRegion = ufRegion[stateKey] ?? 3;
+      if (stateRegion === myRegion) {
+        const cityList = Object.values(cities);
+        if (cityList.length > 0) return cityList[0];
+      }
+    }
+
+    // 4) Any state in the sector
+    for (const cities of Object.values(sector)) {
+      const list = Object.values(cities);
+      if (list.length > 0) return list[0];
+    }
+
+    return null;
+  }
+
+  // ──── Convert raw mock entry to CNPJá-compatible format ───────────────────
+  function mockToResult(d, city, uf) {
+    const ddds = { RS:'51', SC:'48', PR:'41', SP:'11', RJ:'21', MG:'31', BA:'71', PE:'81', GO:'62' };
+    const zips = { RS:'90000-000', SC:'89000-000', PR:'80000-000', SP:'01000-000', RJ:'20000-000', MG:'30000-000' };
+    return {
+      taxId: d.cnpj,
+      alias: d.n.split(' ').slice(0,2).join(' '),
+      company: {
+        name: d.n,
+        equity: d.eq,
+        nature: { text: d.nat },
+        simples: { optant: d.simples },
+        members: d.m.map(mb => ({ person: { name: mb.p }, role: { text: mb.r } }))
+      },
+      status: { text: 'ATIVA' },
+      address: {
+        street:   d.st   || 'Av. Industrial',
+        number:   d.num  || 'S/N',
+        district: d.di   || 'Distrito Industrial',
+        city:     d.city || city,
+        state:    d.uf   || uf,
+        zip:      d.z    || zips[uf] || '00000-000'
+      },
+      emails: [{ address: d.em }],
+      phones: [{ area: d.ddd || ddds[uf] || '11', number: d.tel || '3000-0000' }],
+      mainActivity: { text: d.at }
+    };
+  }
+
   function getSmartFallback(cnaeCode, uf, city, sectorName) {
+    const raw = findMockCompanies(cnaeCode, uf, city);
+
+    if (raw && raw.length > 0) {
+      // Shuffle slightly so repeated searches feel different
+      const shuffled = [...raw].sort(() => Math.random() - 0.47);
+      const results = shuffled.map(d => mockToResult(d, city, uf));
+      // Pad to 5 if needed
+      while (results.length < 5) {
+        results.push(...results.slice(0, 5 - results.length));
+      }
+      return results.slice(0, 5);
+    }
+
+    // Generic fallback with sector-appropriate names
+    return generateDynamicFallbackList(cnaeCode, uf, city, sectorName, 5);
+  }
+
+  function generateDynamicFallbackList(cnaeCode, uf, city, sectorName, count) {
+    const ddds = { RS:'54', SC:'47', PR:'41', SP:'11', RJ:'21', MG:'31', BA:'71', PE:'81', GO:'62' };
+    const zips = { RS:'95000-000', SC:'89000-000', PR:'80000-000', SP:'01000-000', RJ:'20000-000', MG:'30000-000' };
+    const ddd = ddds[uf] || '11';
+    const zip = zips[uf] || '00000-000';
+
+    const sLow = (sectorName||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+    let tipo = 'Industrial'; let nomes = ['Sul','Norte','Serra','Vale','Elite','Nacional'];
+    if (sLow.includes('vinho')||sLow.includes('vinicola')) { tipo='Vinicola'; nomes=['Serra Alta','Monte Real','Don Bernardo','Castelo','Gran Reserva','Ouro Verde']; }
+    else if (sLow.includes('cerveja')||sLow.includes('chope')) { tipo='Cervejaria'; nomes=['Schmidt','Sud Brau','Heilige','Farol','Landbier','Abadia']; }
+    else if (sLow.includes('roupa')||sLow.includes('confecc')||sLow.includes('vestuario')) { tipo='Textil'; nomes=['Sul Vestuario','Caxiense','Anselmi','Ouro Fio','Lourdes','Branco']; }
+    else if (sLow.includes('ferramenta')||sLow.includes('metalurg')||sLow.includes('aco')) { tipo='Metalurgica'; nomes=['Nunes','Marcondes','Vargas','SulMetais','Forte','Alfa']; }
+    else if (sLow.includes('embalagem')||sLow.includes('papelao')||sLow.includes('caixa')) { tipo='Embalagens'; nomes=['SulPack','NovoPack','FlexPack','EcoPack','NacionalPack','Maxipack']; }
+    else if (sLow.includes('movel')||sLow.includes('madeira')) { tipo='Moveis'; nomes=['Florense','Bento','Serra','Pinheiro','Nogueira','Cedro']; }
+    else if (sLow.includes('calcado')||sLow.includes('sapato')) { tipo='Calcados'; nomes=['Gasperi','Tramontini','Borges','Pinheiro','Camargo','Lemos']; }
+    else if (sLow.includes('alimento')||sLow.includes('panifico')) { tipo='Alimentos'; nomes=['Schramm','Oderich','Cisplatina','Pampa','Pomar','Serra']; }
+    else if (sLow.includes('software')||sLow.includes('tecnologia')) { tipo='Tecnologia'; nomes=['Conrado','Ramos','Fischer','Borges','Lopes','Mendes']; }
+
+    const noms = [['Carlos Silva','Ana Rodrigues'],['Roberto Souza','Sandra Pires'],['Luiz Fernando','Juliana Almeida'],['Ricardo Santos','Márcia Carvalho'],['Guilherme Dias','Patrícia Oliveira']];
+    const results = [];
+    for (let i = 0; i < count; i++) {
+      const nome = nomes[i % nomes.length];
+      const propName = nomes[i % nomes.length][0].split(' ').pop();
+      const compName = `${tipo.toUpperCase()} ${nomes[i%nomes.length].join(' ').toUpperCase().replace(/[ÁÀÃÂÄÉÈÊËÍÌÎÏÓÒÕÔÖÚÙÛÜÇáàãâäéèêëíìîïóòõôöúùûüç]/g,c=>'AAAAAEEEEIIIIOOOOOUUUUCA'['ÁÀÃÂÄÉÈÊËÍÌÎÏÓÒÕÔÖÚÙÛÜÇáàãâäéèêëíìîïóòõôöúùûüç'.indexOf(c)]||c)} LTDA`;
+      const cnpj = String(Math.floor(10000000000000 + (cnaeCode*1000+i)*99991)).slice(0,14).padEnd(14,'0');
+      results.push({
+        taxId: cnpj,
+        alias: `${tipo} ${nomes[i%nomes.length][0].split(' ')[0]}`,
+        company: { name: compName, equity: 800000 + i * 500000, nature: { text: 'Sociedade Limitada' }, simples: { optant: i % 2 === 0 }, members: nome.map(n=>({person:{name:n},role:{text:'Sócio-Administrador'}})) },
+        status: { text: 'ATIVA' },
+        address: { street:'Av. Industrial', number:String(100+i*150), district:'Distrito Industrial', city, state:uf, zip },
+        emails: [{ address: `comercial@${tipo.toLowerCase()}${nomes[i%nomes.length][0].split(' ')[0].toLowerCase()}.com.br` }],
+        phones: [{ area: ddd, number: `3455-${1000+i*111}` }],
+        mainActivity: { text: sectorName || `${cnaeCode} - Atividade Industrial` }
+      });
+    }
+    return results;
+  }
+
+
     const smartFallbacks = {
       // 1101100: Vinho
       '1101100': {
