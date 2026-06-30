@@ -3330,7 +3330,55 @@
     return results;
   }
 
+  let activeDetailedLead = '';
 
+  function showDetailedCard(name, cnpj, cnae, capital, cityState, email, phone, regime, ie, membersHtml, address, district, zip) {
+    activeDetailedLead = name;
+    
+    document.getElementById('detail-company-name').textContent = name;
+    document.getElementById('detail-cnpj').textContent = formatCNPJ(cnpj);
+    document.getElementById('detail-nature').textContent = cnae;
+    document.getElementById('detail-capital').textContent = capital;
+    document.getElementById('detail-email').textContent = email;
+    document.getElementById('detail-phone').textContent = phone;
+    document.getElementById('detail-address').textContent = address;
+    document.getElementById('detail-cep').textContent = 'CEP: ' + zip;
+    document.getElementById('detail-regime').textContent = regime;
+    document.getElementById('detail-ie').textContent = ie;
+    document.getElementById('detail-members-list').innerHTML = membersHtml;
+    
+    const mapLink = document.getElementById('detail-map-link');
+    if (mapLink) {
+      mapLink.href = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`;
+    }
+    
+    const impBtn = document.getElementById('detail-import-btn');
+    if (impBtn) {
+      impBtn.disabled = false;
+      impBtn.textContent = '+ Importar para CRM';
+      impBtn.style.background = 'var(--lime)';
+      impBtn.style.color = 'var(--black)';
+    }
+
+    // Open modal
+    document.getElementById('ficha-modal').style.display = 'block';
+    document.getElementById('ficha-modal-backdrop').style.display = 'block';
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeFichaModal() {
+    // Check if element exists before modifying
+    const modal = document.getElementById('ficha-modal');
+    const backdrop = document.getElementById('ficha-modal-backdrop');
+    if (modal) modal.style.display = 'none';
+    if (backdrop) backdrop.style.display = 'none';
+    document.body.style.overflow = '';
+  }
+
+  // Close on Escape key
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeFichaModal();
+  });
 
   function selectLead(name, cnpj, cnae, capital, cityState, email, phone, regime, ie, membersHtml, address, district, zip) {
     showDetailedCard(name, cnpj, cnae, capital, cityState, email, phone, regime, ie, membersHtml, `${address} - ${district} - ${cityState}`, district, zip);
